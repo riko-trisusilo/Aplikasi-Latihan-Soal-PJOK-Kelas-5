@@ -1,0 +1,1056 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aplikasi Latihan Soal PJOK Kelas 5</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .certificate {
+            border: 10px solid #1e40af;
+            background-color: #eff6ff;
+            padding: 2rem;
+            position: relative;
+            background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%2393c5fd' fill-opacity='0.1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+        }
+    </style>
+</head>
+<body class="bg-gray-100 text-gray-800">
+
+    <div id="app-container" class="container mx-auto p-4 md:p-8 max-w-4xl">
+
+        <!-- Welcome Screen -->
+        <div id="welcomeScreen" class="bg-white p-8 rounded-2xl shadow-xl text-center transition-opacity duration-500">
+            <h1 class="text-4xl font-extrabold text-blue-900 mb-2">Selamat Datang</h1>
+            <h2 class="text-5xl font-extrabold text-blue-600 mb-6">PJOK JUARA</h2>
+            <h3 class="text-3xl font-extrabold text-red-600 mb-6">Fase C Kelas 5</h3>
+            <p class="text-gray-600 mb-8 max-w-lg mx-auto">Aplikasi belajar dan latihan soal PJOK Kelas 5 Kurikulum Merdeka. Masukkan nama dan pilih kelasmu untuk memulai!</p>
+            
+            <div class="max-w-md mx-auto">
+                <div class="mb-4">
+                    <label for="studentName" class="block text-left text-gray-700 font-semibold mb-2">Nama Lengkap</label>
+                    <input type="text" id="studentName" placeholder="Ketik nama lengkapmu di sini" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition">
+                </div>
+                <div class="mb-6">
+                    <label for="studentClass" class="block text-left text-gray-700 font-semibold mb-2">Pilih Kelas</label>
+                    <select id="studentClass" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition bg-white">
+                        <option value="5A">Kelas 5A</option>
+                        <option value="5B">Kelas 5B</option>
+                        <option value="5C">Kelas 5C</option>
+                        <option value="5D">Kelas 5D</option>
+                    </select>
+                </div>
+                <button id="startButton" class="w-full bg-blue-600 text-white font-bold py-4 px-6 rounded-lg hover:bg-blue-700 transition-transform transform hover:scale-105 shadow-lg">Mulai Belajar</button>
+            </div>
+             <p id="authStatus" class="text-sm text-gray-400 mt-4">Menghubungkan ke server...</p>
+             <div class="mt-8">
+                <button id="showBiodataButton" class="text-blue-600 hover:text-blue-800 font-semibold transition">Biodata Pengembang</button>
+             </div>
+        </div>
+        
+        <!-- Biodata Screen -->
+        <div id="biodataScreen" class="hidden bg-white p-8 rounded-2xl shadow-xl text-center transition-opacity duration-500">
+            <h2 class="text-3xl font-extrabold text-blue-900 mb-8">Biodata Pengembang</h2>
+            <img src="img/foto_pengembang.png" alt="Foto Pengembang" class="w-32 h-32 rounded-full mx-auto mb-6 object-cover shadow-lg border-4 border-white">
+            <div class="text-left max-w-md mx-auto space-y-4 text-blue-700">
+                <p><strong>Nama:</strong> Riko Trisusilo, S.Pd.Gr</p>
+                <p><strong>Institusi:</strong> SD Negeri 008 Samarinda Ulu</p>
+                <p><strong>Deskripsi:</strong> Aplikasi ini dikembangkan sebagai contoh platform pembelajaran interaktif menggunakan teknologi web modern. Tujuannya adalah untuk menyediakan alat bantu belajar yang menarik dan fungsional bagi siswa dan guru dalam rangka implementasi Kurikulum Merdeka.</p>
+                <p><strong>Teknologi:</strong> HTML, Tailwind CSS, JavaScript, Firebase</p>
+            </div>
+             <button id="backToWelcomeButton" class="mt-8 bg-gray-200 text-gray-700 font-semibold py-2 px-6 rounded-lg hover:bg-gray-300 transition">Kembali</button>
+        </div>
+
+        <!-- Main Menu Screen -->
+        <div id="mainMenuScreen" class="hidden transition-opacity duration-500">
+            <div class="flex justify-between items-center mb-6">
+                <div>
+                    <h1 class="text-3xl font-bold text-blue-800">Pilih Materi Belajar</h1>
+                    <p id="welcomeMessage" class="text-gray-600">Ayo, pilih materi untuk dibaca atau kerjakan latihannya!</p>
+                </div>
+                 <button id="viewScoresButton" class="bg-yellow-500 text-white font-semibold py-2 px-4 rounded-lg hover:bg-yellow-600 transition shadow">Lihat Daftar Nilai</button>
+            </div>
+            <div id="topicGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Topics will be dynamically inserted here -->
+            </div>
+        </div>
+
+        <!-- Materi Screen -->
+        <div id="materiScreen" class="hidden bg-white p-8 rounded-2xl shadow-xl transition-opacity duration-500">
+            <button class="backToMenuButton bg-gray-200 text-gray-700 font-semibold py-2 px-4 rounded-lg hover:bg-gray-300 transition mb-6">Kembali ke Menu</button>
+            <h2 id="materiTitle" class="text-3xl font-extrabold text-blue-800 mb-4"></h2>
+            <div id="materiContent" class="prose max-w-none text-lg text-gray-700 leading-relaxed"></div>
+            <hr class="my-6">
+            <h3 class="text-2xl font-bold text-blue-700 mb-4">Bahan Sumber Materi</h3>
+            <div id="materiSources" class="bg-blue-50 p-4 rounded-lg text-blue-900"></div>
+        </div>
+
+        <!-- Quiz Screen -->
+        <div id="quizScreen" class="hidden bg-white p-8 rounded-2xl shadow-xl transition-opacity duration-500">
+            <div class="flex justify-between items-center mb-4">
+                <h2 id="quizTitle" class="text-2xl md:text-3xl font-bold text-blue-800"></h2>
+                <div id="progressIndicator" class="text-lg font-semibold text-gray-600"></div>
+            </div>
+            <div class="bg-gray-100 h-2 rounded-full mb-6">
+                <div id="progressBar" class="bg-green-500 h-2 rounded-full transition-all duration-300"></div>
+            </div>
+            <div id="questionContainer">
+                <p id="questionText" class="text-xl md:text-2xl font-semibold mb-6 min-h-[6rem]"></p>
+                <div id="answerOptions" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <!-- Answer options will be dynamically inserted here -->
+                </div>
+            </div>
+            <div id="feedbackContainer" class="mt-6 text-center hidden">
+                <p id="feedbackText" class="text-2xl font-bold"></p>
+            </div>
+        </div>
+
+        <!-- Result Screen -->
+        <div id="resultScreen" class="hidden bg-white p-8 rounded-2xl shadow-xl text-center transition-opacity duration-500">
+            <h2 class="text-4xl font-extrabold text-blue-800 mb-4">Hasil Latihan</h2>
+            <p class="text-lg text-gray-600 mb-6">Kamu telah menyelesaikan latihan untuk materi <strong id="resultTopic" class="text-blue-700"></strong>.</p>
+            <div class="bg-blue-100 border-4 border-blue-500 rounded-full w-48 h-48 mx-auto flex flex-col justify-center items-center mb-6">
+                <p class="text-gray-700">NILAI AKHIR</p>
+                <p id="finalScore" class="text-6xl font-extrabold text-blue-800"></p>
+            </div>
+            <p id="resultMessage" class="text-xl font-medium mb-8"></p>
+            <div class="flex justify-center gap-4">
+                <button class="backToMenuButton bg-blue-600 text-white font-bold py-3 px-6 rounded-lg hover:bg-blue-700 transition">Kembali ke Menu</button>
+                <button id="viewCertificateButton" class="hidden bg-green-600 text-white font-bold py-3 px-6 rounded-lg hover:bg-green-700 transition">Lihat Sertifikat</button>
+            </div>
+        </div>
+
+        <!-- Nilai Screen -->
+        <div id="nilaiScreen" class="hidden bg-white p-8 rounded-2xl shadow-xl transition-opacity duration-500">
+             <button class="backToMenuButton bg-gray-200 text-gray-700 font-semibold py-2 px-4 rounded-lg hover:bg-gray-300 transition mb-6">Kembali ke Menu</button>
+            <h2 class="text-3xl font-extrabold text-blue-800 mb-6">Daftar Nilai</h2>
+             <div class="overflow-x-auto">
+                <table class="min-w-full bg-white border border-gray-200">
+                    <thead class="bg-gray-100">
+                        <tr>
+                            <th class="py-3 px-4 border-b text-left font-semibold text-gray-600">Nama Siswa</th>
+                            <th class="py-3 px-4 border-b text-left font-semibold text-gray-600">Kelas</th>
+                            <th class="py-3 px-4 border-b text-left font-semibold text-gray-600">Materi</th>
+                            <th class="py-3 px-4 border-b text-left font-semibold text-gray-600">Nilai</th>
+                            <th class="py-3 px-4 border-b text-left font-semibold text-gray-600">Tanggal</th>
+                        </tr>
+                    </thead>
+                    <tbody id="nilaiTableBody">
+                        <!-- Scores will be dynamically inserted here -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Sertifikat Screen -->
+        <div id="sertifikatScreen" class="hidden bg-white p-4 md:p-8 rounded-2xl shadow-xl transition-opacity duration-500">
+             <div class="flex justify-between items-center mb-4">
+                <button class="backToResultButton bg-gray-200 text-gray-700 font-semibold py-2 px-4 rounded-lg hover:bg-gray-300 transition">Kembali</button>
+                <button id="printCertificateButton" class="bg-blue-600 text-white font-bold py-2 px-4 rounded-lg hover:bg-blue-700 transition">Cetak/Simpan</button>
+            </div>
+            <div id="certificateWrapper" class="certificate">
+                <div class="text-center">
+                    <h1 class="text-2xl md:text-4xl font-bold text-yellow-500" style="font-family: 'Brush Script MT', cursive;">Sertifikat Prestasi</h1>
+                    <p class="text-lg md:text-xl mt-4 text-blue-900">Diberikan kepada:</p>
+                    <h2 id="certStudentName" class="text-3xl md:text-5xl font-extrabold my-6 text-blue-800"></h2>
+                    <p class="text-lg md:text-xl text-blue-900">Atas keberhasilannya dalam menyelesaikan materi pembelajaran dan latihan soal:</p>
+                    <h3 id="certTopic" class="text-2xl md:text-3xl font-bold my-4 text-blue-700"></h3>
+                    <p class="text-lg md:text-xl text-blue-900">dengan nilai yang sangat memuaskan</p>
+                    <p id="certScore" class="text-5xl md:text-7xl font-extrabold my-6 text-green-600"></p>
+                    <div class="flex justify-around items-end mt-12 text-blue-900">
+                        <div class="text-center">
+                            <p class="font-semibold">Kepala Sekolah</p>
+                            <img src="https://api.qrserver.com/v1/create-qr-code/?size=80x80&data=Kepala%20Sekolah%20SDN%20Teladan%20-%20Telah%20Diverifikasi" alt="QR Code Kepala Sekolah" class="mx-auto my-2">
+                            <p class="mt-2 border-t-2 border-blue-800 pt-1">(Dr.Chelda Yuliana, M.Pd)</p>
+                        </div>
+                        <div class="text-center">
+                             <p id="certDate" class="mb-4"></p>
+                            <p class="font-semibold">Guru PJOK</p>
+                            <img src="https://api.qrserver.com/v1/create-qr-code/?size=80x80&data=Guru%20PJOK%20-%20Telah%20Diverifikasi" alt="QR Code Guru PJOK" class="mx-auto my-2">
+                            <p class="mt-2 border-t-2 border-blue-800 pt-1">(Riko Trisusilo, S.Pd.Gr)</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script type="module">
+        // Import Firebase modules
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getFirestore, doc, collection, addDoc, onSnapshot, query, where, serverTimestamp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+        // --- FIREBASE SETUP ---
+        const appId = typeof __app_id !== 'undefined' ? __app_id : 'pjok-juara-kelas-5';
+        const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : { apiKey: "DEMO_API_KEY", authDomain: "DEMO_AUTH_DOMAIN", projectId: "DEMO_PROJECT_ID" };
+        const initialAuthToken = typeof __initial_auth_token !== 'undefined' ? __initial_auth_token : null;
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+
+        let userId = null;
+        let scoresCollectionRef = null;
+        let scoresUnsubscribe = null;
+
+        const authStatusEl = document.getElementById('authStatus');
+
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                userId = user.uid;
+                scoresCollectionRef = collection(db, `artifacts/${appId}/users/${userId}/scores`);
+                authStatusEl.textContent = 'Terhubung ke server.';
+                authStatusEl.classList.remove('text-red-500');
+                authStatusEl.classList.add('text-green-500');
+                listenForScores();
+            } else {
+                authStatusEl.textContent = 'Gagal terhubung. Coba lagi.';
+                authStatusEl.classList.add('text-red-500');
+            }
+        });
+        
+        if (initialAuthToken) {
+            signInWithCustomToken(auth, initialAuthToken).catch((error) => {
+                console.error("Custom token sign-in error:", error);
+                signInAnonymously(auth);
+            });
+        } else {
+            signInAnonymously(auth).catch((error) => {
+                console.error("Anonymous sign-in error:", error);
+                authStatusEl.textContent = 'Mode offline. Nilai tidak akan tersimpan.';
+            });
+        }
+
+        // --- APPLICATION DATA ---
+        const data = {
+            // NOTE: For brevity, only 5 questions are provided per topic. In a full app, this would be expanded to 50.
+            invasi: {
+                title: "Permainan Invasi",
+                materi: `
+                    <p class="mb-4"><strong>Permainan invasi</strong> adalah jenis permainan yang tujuannya adalah untuk menyerang wilayah pertahanan lawan dan mencetak angka, sambil berusaha mempertahankan wilayah sendiri dari serangan lawan. Ciri utamanya adalah adanya perebutan ruang dan bola.</p>
+                    <h4 class="font-bold mt-4 mb-2">Pola Gerak Dasar:</h4>
+                    <ul class="list-disc list-inside mb-4">
+                        <li><strong>Lokomotor:</strong> Berlari, melompat, dan meloncat untuk bergerak di lapangan.</li>
+                        <li><strong>Non-lokomotor:</strong> Menekuk lutut, mengayun lengan, dan memutar badan untuk bersiap.</li>
+                        <li><strong>Manipulatif:</strong> Menendang, melempar, menangkap, dan menggiring bola.</li>
+                    </ul>
+                    <h4 class="font-bold mt-4 mb-2">Contoh Permainan:</h4>
+                    <p><strong>Sepak Bola:</strong> Menggunakan kaki untuk menggiring dan menendang bola ke gawang lawan.</p>
+                    <p><strong>Bola Basket:</strong> Menggunakan tangan untuk menggiring bola dan memasukkannya ke keranjang lawan.</p>
+                    <p><strong>Bola Tangan:</strong> Melempar bola dengan tangan untuk mencetak gol di gawang lawan.</p>
+                    <p class="mt-4">Dalam semua permainan invasi, <strong>kerja sama tim, strategi, dan sportivitas</strong> sangat penting untuk meraih kemenangan.</p>
+                `,
+                sumber: `
+                    <ul class="list-disc list-inside">
+                        <li>Buku Panduan Guru & Siswa PJOK Kelas 5, Kurikulum Merdeka, Kemdikbudristek, 2021.</li>
+                        <li>Capaian Pembelajaran (CP) PJOK Fase C (Kelas V & VI).</li>
+                    </ul>
+                `,
+                soal: [
+                    { q: "Tujuan utama dari permainan invasi seperti sepak bola adalah...", o: ["Menjatuhkan bola di lapangan sendiri", "Menyerang wilayah lawan untuk mencetak angka", "Berlari secepat mungkin tanpa tujuan", "Memukul bola dengan tongkat"], a: 1 },
+                    { q: "Menggiring bola dalam permainan bola basket adalah contoh kombinasi gerak dasar...", o: ["Lokomotor dan Manipulatif", "Non-lokomotor dan Lokomotor", "Manipulatif dan Non-lokomotor", "Hanya Lokomotor"], a: 0 },
+                    { q: "Manakah di bawah ini yang BUKAN merupakan contoh permainan invasi?", o: ["Sepak Bola", "Bola Tangan", "Renang", "Bola Basket"], a: 2 },
+                    { q: "Sikap yang paling penting ditunjukkan saat bermain bersama tim dalam permainan invasi adalah...", o: ["Ingin menang sendiri", "Menyalahkan teman", "Kerja sama", "Bermain curang"], a: 2 },
+                    { q: "Gerakan berlari untuk mengejar bola termasuk dalam gerak dasar...", o: ["Manipulatif", "Non-lokomotor", "Lokomotor", "Keseimbangan"], a: 2 },
+                    { q: "Permainan bola tangan dimainkan dengan menggunakan...", o: ["Kaki", "Tangan", "Kepala", "Tongkat"], a: 1 },
+    { q: "Menendang bola ke arah gawang dalam sepak bola termasuk gerak dasar...", o: ["Non-lokomotor", "Manipulatif", "Keseimbangan", "Lokomotor"], a: 1 },
+    { q: "Contoh gerakan non-lokomotor dalam permainan invasi adalah...", o: ["Melompat", "Menekuk lutut", "Berlari", "Menendang"], a: 1 },
+    { q: "Bola basket dimainkan dengan cara...", o: ["Menendang bola", "Menggiring dan melempar bola menggunakan tangan", "Menangkap dengan kaki", "Memukul dengan raket"], a: 1 },
+    { q: "Kerja sama tim dibutuhkan dalam permainan invasi untuk...", o: ["Menang sendiri", "Mencetak angka bersama", "Menjadi wasit", "Melanggar peraturan"], a: 1 },
+    { q: "Dalam permainan bola basket, gerakan mengoper bola termasuk gerak...", o: ["Lokomotor", "Non-lokomotor", "Manipulatif", "Statis"], a: 2 },
+    { q: "Permainan futsal termasuk jenis permainan...", o: ["Air", "Individu", "Invasi", "Tradisional"], a: 2 },
+    { q: "Menjaga gawang agar tidak kebobolan termasuk tugas dari...", o: ["Penyerang", "Wasit", "Kiper", "Gelandang"], a: 2 },
+    { q: "Gerakan melompat termasuk ke dalam gerak dasar...", o: ["Manipulatif", "Lokomotor", "Non-lokomotor", "Diam"], a: 1 },
+    { q: "Dalam permainan sepak bola, gerakan menggiring bola disebut juga...", o: ["Dribbling", "Shooting", "Catching", "Passing"], a: 0 },
+    { q: "Mengayun lengan saat bersiap menerima bola termasuk gerak dasar...", o: ["Non-lokomotor", "Lokomotor", "Manipulatif", "Keseimbangan"], a: 0 },
+    { q: "Contoh permainan invasi yang menggunakan tangan untuk menggiring bola adalah...", o: ["Sepak bola", "Hoki", "Bola basket", "Bola voli"], a: 2 },
+    { q: "Salah satu bentuk sportivitas dalam permainan adalah...", o: ["Mencurangi lawan", "Menerima kekalahan dengan lapang dada", "Berbohong pada wasit", "Menghindari tugas"], a: 1 },
+    { q: "Apa yang dimaksud dengan permainan invasi?", o: ["Permainan menjaga keseimbangan", "Permainan bertahan dan menyerang wilayah lawan", "Permainan air", "Permainan individu"], a: 1 },
+    { q: "Permainan invasi biasanya dimainkan oleh...", o: ["Individu", "Dua tim yang saling bertanding", "Penonton", "Satu orang"], a: 1 },
+    { q: "Bermain curang dalam pertandingan menunjukkan sikap...", o: ["Sportif", "Adil", "Tidak jujur", "Kerja sama"], a: 2 },
+    { q: "Gerakan mendorong bola dengan tangan dalam bola basket disebut...", o: ["Shooting", "Passing", "Catching", "Running"], a: 1 },
+    { q: "Manfaat permainan invasi antara lain adalah...", o: ["Melatih emosi marah", "Melatih motorik dan kerja sama", "Menghindari olahraga", "Mengutamakan menang"], a: 1 },
+    { q: "Pemain belakang yang tugasnya menghentikan serangan lawan disebut...", o: ["Penyerang", "Kiper", "Gelandang", "Bek"], a: 3 },
+    { q: "Ketika bola masuk ke gawang lawan, tim mendapatkan...", o: ["Kartu kuning", "Nilai", "Teguran", "Waktu istirahat"], a: 1 },
+    { q: "Menggiring bola menggunakan tangan disebut...", o: ["Dribble", "Shoot", "Pass", "Kick"], a: 0 },
+    { q: "Apa yang harus dilakukan jika ada teman yang melakukan kesalahan dalam tim?", o: ["Memarahi", "Memaafkan dan memberi semangat", "Menjauhi", "Menyalahkan terus"], a: 1 },
+    { q: "Peraturan dalam permainan invasi penting agar...", o: ["Semua bisa curang", "Pertandingan berjalan tertib", "Permainan kacau", "Tidak ada pemenang"], a: 1 },
+    { q: "Dalam bola tangan, bola dilempar ke arah...", o: ["Penonton", "Rekan setim", "Gawang lawan", "Pelatih"], a: 2 },
+    { q: "Strategi dalam permainan invasi berguna untuk...", o: ["Membuat lawan bingung", "Mengatur pola permainan tim", "Bertengkar", "Menyerah"], a: 1 },
+    { q: "Apa yang harus dikembangkan saat bermain permainan invasi?", o: ["Kerja sama dan sportivitas", "Permusuhan", "Kemalasan", "Egoisme"], a: 0 },
+    { q: "Sikap yang baik saat menang adalah...", o: ["Mengejek lawan", "Merayakan berlebihan", "Tetap rendah hati", "Melanggar aturan"], a: 2 },
+    { q: "Bola basket dimainkan oleh...", o: ["2 orang", "4 orang", "5 orang per tim", "1 orang"], a: 2 },
+    { q: "Gerakan tubuh seperti menekuk dan memutar merupakan contoh gerak...", o: ["Lokomotor", "Non-lokomotor", "Manipulatif", "Taktis"], a: 1 },
+    { q: "Jika bola keluar lapangan, maka permainan akan...", o: ["Berhenti sejenak", "Dihentikan selamanya", "Diteruskan tanpa aturan", "Berubah permainan"], a: 0 }
+
+                ]
+            },
+            net: {
+                title: "Permainan Net",
+                materi: `
+                    <p class="mb-4">Permainan net adalah jenis olahraga atau permainan yang menggunakan net atau jaring sebagai pembatas antara dua sisi lapangan tempat pemain atau tim bermain.</p>
+                    <h4 class="font-bold mt-4 mb-2">A. Permainan Net (Contoh: Bola Voli & Bulu Tangkis)</h4>
+                    <p class="mb-2">Permainan ini menggunakan net sebagai pembatas. Tujuannya adalah menjatuhkan bola atau kok di area permainan lawan agar tidak bisa dikembalikan.</p>
+                    <ul class="list-disc list-inside mb-4">
+                        <li><strong>Bola Voli:</strong> Gerak dasarnya meliputi <em>passing</em> bawah, <em>passing</em> atas, dan servis.</li>
+                        <li><strong>Bulu Tangkis:</strong> Gerak dasarnya adalah memegang raket, servis, pukulan <em>forehand</em>, dan <em>backhand</em>.</li>
+                    </ul>
+                    <h4 class="font-bold mt-4 mb-2">B. Pola Gerak Dasar Permainan Bola Voli (Contoh: Passing Bawah & Passing Atas)</h4>
+                    <p class="mb-2">Passing atas dilakukan dengan mengangkat kedua tangan di atas kepala untuk mengumpan bola, sementara passing bawah dilakukan dengan merapatkan dan meluruskan kedua lengan di depan badan untuk memantulkan bola.</p>
+                    <ul class="list-disc list-inside mb-4">
+                        <li><strong>Passing Bawah:</strong> Buka kaki sambil sikap sedikit jongkok. Rapatkan kedua tangan sambil terjulur lurus. Rendahkan sikap tubuh. Posisikan kedua lengan bawah seperti mengangkat dengan kedua tangan saling terkait.</li>
+                        <li><strong>Passing Atas:</strong> Ambil posisi berdiri dengan kedua kaki dibuka selebar bahu.Rendahkan lutut hingga berat badan bertumpu pada ujung kaki bagian depan.Posisikan lengan di depan badan.Renggangkan jari-jari dan telapak tangan hingga menyerupai mangkuk di atas wajah.Fokuskan pandangan ke arah datangnya bola.</li>
+                    </ul>
+                `,
+                sumber: `
+                    <ul class="list-disc list-inside">
+                        <li>Buku Panduan Guru & Siswa PJOK Kelas 5, Kurikulum Merdeka, Kemdikbudristek, 2021.</li>
+                    </ul>
+                `,
+                soal: [
+                    { q: "Alat yang menjadi pemisah antara dua wilayah permainan dalam bulu tangkis adalah...", o: ["Gawang", "Keranjang", "Net", "Garis"], a: 2 },
+                    { q: "Gerakan memukul bola dengan ayunan tangan dari bawah dalam permainan bola voli disebut...", o: ["Passing atas", "Servis bawah", "Smash", "Blok"], a: 1 },
+                    { q: "Pukulan dalam bulu tangkis yang dilakukan dengan posisi telapak tangan menghadap ke depan disebut pukulan...", o: ["Backhand", "Smash", "Dropshot", "Forehand"], a: 3 },
+                    { q: "Benda yang digunakan untuk dipukul dalam permainan bulu tangkis disebut...", o: ["Bola", "Kok", "Net", "Tongkat"], a: 1 },
+    { q: "Dalam permainan bola voli, teknik untuk mengoper bola kepada teman adalah...", o: ["Servis", "Smash", "Passing", "Blocking"], a: 2 },
+    { q: "Pemain yang bertugas mengatur bola dalam permainan voli disebut...", o: ["Smash", "Libero", "Tosser", "Bloker"], a: 2 },
+    { q: "Jumlah pemain dalam satu tim bola voli adalah...", o: ["4 orang", "6 orang", "5 orang", "3 orang"], a: 1 },
+    { q: "Teknik pukulan keras ke arah bawah dalam permainan bulu tangkis disebut...", o: ["Drop shot", "Drive", "Smash", "Clear"], a: 2 },
+    { q: "Servis dalam bulu tangkis dilakukan untuk...", o: ["Memulai permainan", "Mengakhiri pertandingan", "Mengganggu lawan", "Merebut bola"], a: 0 },
+    { q: "Pemain bulu tangkis tidak boleh menyentuh...", o: ["Lantai", "Shuttlecock", "Net", "Raket"], a: 2 },
+    { q: "Permainan bola voli dimulai dengan...", o: ["Smash", "Servis", "Passing", "Blok"], a: 1 },
+    { q: "Lapangan bulu tangkis dibatasi oleh...", o: ["Tembok", "Tiang", "Garis putih", "Tali rafia"], a: 2 },
+    { q: "Pukulan pendek yang diarahkan dekat net dalam bulu tangkis disebut...", o: ["Smash", "Drop shot", "Drive", "Clear"], a: 1 },
+    { q: "Permainan bulu tangkis bisa dimainkan secara tunggal dan...", o: ["Kelompok", "Lawan", "Bergilir", "Ganda"], a: 3 },
+    { q: "Teknik membendung bola lawan di dekat net dalam voli disebut...", o: ["Passing", "Servis", "Blok", "Tosser"], a: 2 },
+    { q: "Pemain bertahan khusus dalam bola voli disebut...", o: ["Smash", "Tosser", "Bloker", "Libero"], a: 3 },
+    { q: "Jumlah poin untuk memenangkan satu set dalam bulu tangkis adalah...", o: ["11", "15", "21", "25"], a: 2 },
+    { q: "Bagian tubuh yang digunakan untuk passing dalam voli adalah...", o: ["Kepala", "Dada", "Lengan bawah", "Kaki"], a: 2 },
+    { q: "Permainan bulu tangkis berasal dari negara...", o: ["Amerika", "Indonesia", "India", "Inggris"], a: 3 },
+    { q: "Pukulan pembuka permainan dalam bola voli disebut...", o: ["Servis", "Passing", "Blocking", "Smash"], a: 0 },
+    { q: "Tujuan permainan bola voli adalah...", o: ["Merebut bola lawan", "Memukul bola ke tiang", "Memasukkan bola ke keranjang", "Menjatuhkan bola di lapangan lawan"], a: 3 },
+    { q: "Teknik pukulan datar dan cepat dalam bulu tangkis disebut...", o: ["Drive", "Smash", "Drop shot", "Clear"], a: 0 },
+    { q: "Raket dalam bulu tangkis digunakan untuk...", o: ["Menangkap kok", "Memukul kok", "Menjaga net", "Melempar bola"], a: 1 },
+    { q: "Jumlah set maksimal dalam permainan bola voli adalah...", o: ["1", "2", "3", "5"], a: 3 },
+    { q: "Jika shuttlecock jatuh di luar lapangan, maka poin untuk...", o: ["Pemain", "Wasit", "Penonton", "Lawan"], a: 3 },
+    { q: "Dalam voli, pemain hanya boleh menyentuh bola sebanyak...", o: ["1 kali", "2 kali", "3 kali", "4 kali"], a: 2 },
+    { q: "Ukuran lapangan bulu tangkis untuk tunggal lebih sempit dari lapangan...", o: ["Sepak bola", "Ganda", "Voli", "Basket"], a: 1 },
+    { q: "Ketika menerima bola servis, pemain voli melakukan teknik...", o: ["Blocking", "Tosser", "Passing bawah", "Servis"], a: 2 },
+    { q: "Jika bola menyentuh net saat servis dalam voli dan masuk, maka hasilnya adalah...", o: ["Sah", "Tidak sah", "Diulang", "Dihentikan"], a: 0 },
+    { q: "Sikap berdiri saat menunggu kok disebut sikap...", o: ["Diam", "Berdiri pasif", "Siap", "Tegak"], a: 2 },
+    { q: "Jika shuttlecock menyentuh tubuh pemain, maka dinyatakan...", o: ["Lanjut", "Sah", "Mati", "Skor"], a: 2 },
+    { q: "Dalam pertandingan resmi, jumlah pemain ganda dalam bulu tangkis adalah...", o: ["2 orang", "3 orang", "4 orang", "6 orang"], a: 2 },
+    { q: "Fungsi net dalam permainan voli adalah untuk...", o: ["Tempat bola jatuh", "Pemukul bola", "Pembatas wilayah permainan", "Penyimpan bola"], a: 2 },
+    { q: "Pemain yang melakukan smash dalam voli disebut juga...", o: ["Libero", "Spiker", "Tosser", "Blocker"], a: 1 },
+    { q: "Jika kok tidak melewati net, maka yang terjadi adalah...", o: ["Poin untuk pemain", "Poin untuk lawan", "Ulang servis", "Permainan berhenti"], a: 1 },
+                ]
+            },
+            lapangan: {
+                title: "Permainan Lapangan",
+                materi: `
+                    <p class="mb-4">Permainan lapangan adalah aktivitas olahraga yang dimainkan di area terbuka atau lapangan. Kita akan membahas dua jenis utama: permainan net dan permainan bola kecil.</p>
+                    <h4 class="font-bold mt-4 mb-2">A. Permainan Lapangan (Contoh: Kasti & Rounders)</h4>
+                    <p class="mb-2">Permainan ini segala jenis permainan atau olahraga yang dimainkan di area terbuka, seperti lapangan sepak bola, lapangan basket, atau lapangan lainnya.</p>
+                    <ul class="list-disc list-inside mb-4">
+                        <li><strong>Kasti:</strong> Permainan bola kasti adalah jenis permainan beregu yang menggunakan bola, tongkat pemukul, dan tiang pancang sebagai penanda. Pemain memukul bola dengan tongkat, lalu berlari menuju pos-pos yang telah ditentukan. Tujuan permainan adalah mencetak poin dengan berlari melewati pos-pos tersebut sebelum pemain lawan berhasil menangkap bola atau mematikan pelari.</li>
+                        <li><strong>Rounders:</strong> Rounders adalah jenis permainan bola kecil yang dimainkan oleh dua tim, menggunakan bola dan alat pemukul, biasanya tongkat kayu. Permainan ini melibatkan memukul bola, berlari ke pos-pos (base), dan mencetak poin, dengan tujuan mengalahkan tim lawan.</li>
+                    </ul>
+                    <h4 class="font-bold mt-4 mb-2">B. Gerak Dasar dan Tujuan Permainan Kasti & Rounders</h4>
+                    <p class="mb-2">Permainan ini melibatkan regu pemukul dan regu penjaga. Tujuannya adalah memukul bola sejauh mungkin, lalu berlari melewati pos-pos (base) untuk mencetak angka.</p>
+                    <ul class="list-disc list-inside mb-4">
+                        <li><strong>Gerak Dasar:</strong> Melempar, menangkap, memukul bola, dan berlari cepat.</li>
+                        <li><strong>Kerja Sama:</strong> Regu penjaga harus kompak untuk mematikan lawan, sedangkan regu pemukul harus pandai menempatkan bola.</li>
+                    </ul>
+                    </ul>
+                    <h4 class="font-bold mt-4 mb-2">C. Perbedaan Kasti & Rounders </h4>
+                    <p class="mb-2">Permainan rounders dan kasti, meskipun sama-sama permainan bola kecil beregu, memiliki beberapa perbedaan signifikan. Perbedaan utama terletak pada bentuk lapangan, ukuran lapangan, jumlah babak, dan alat pemukul yang digunakan.</p>
+                    <ul class="list-disc list-inside mb-4">
+                        <li><strong>Bentuk Lapangan:</strong> Perbedaan kasti dan rounders dapat dilihat dari segi bentuk lapangan. Lapangan permainan kasti umumnya berbentuk persegi panjang.Lapangan kasti dibagi menjadi beberapa daerah. Di antaranya satu ruang bebas, satu ruang pertolongan, dua ruang hinggap atau base, dan tiga pos sebagai tujuan lari tim pemukul usai sukses memukul bola.Adapun lapangan permainan rounders memiliki bentuk segi lima beraturan dengan panjang masing-masing sisi 15 meter. Di dalamnya terdapat lima tempat hinggap berbentuk bujur sangkar, yaitu base I, II, III, IV, dan V.</li>
+                        <li><strong>Ukuran Lapangan:</strong> Pada permainan kasti, panjang lapangan berkisar antara 60-70 meter dengan lebar mencapai 30 meter.Sebaliknya, masing-masing sisi lapangan rounders memiliki panjang 14 meter dan berukuran 40 x 40 cm.</li>
+                        <li><strong>Tiang Hinggap (base):</strong> Tiang hinggap pada permainan kasti berjumlah tiga. Sementara permainan rounders memiliki empat tiang hinggap.</li>
+                        <li><strong>Alat Pemukul (bat):</strong> Alat pemukul kasti terbuat dari kayu berbentuk stik pemukul dengan panjang 50-60 cm dan diameter 5 cm.Di sisi lain, alat pemukul rounders hadir dengan ukuran panjang 50-80 cm. Sementara diameternya adalah 7 cm.</li>
+                        <li><strong>Berat Bola:</strong> Baik permainan kasti maupun rounders menggunakan bola dengan lingkaran 19-22 cm.Berat bola kasti kira-kira 70-80 gram. Sementara berat bola rounders mencapai 80-100 gram.</li>
+                        <li><strong>Durasi Permainan:</strong> kasti yang terdiri dari dua babak. Setiap babak pun berjalan selama 30 menit dengan waktu istirahat selama 10 menit.Sementara jalannya permainan rounders berlangsung selama tiga inning atau babak. Setiap babak pun dinyatakan usai bila setiap regu sudah bergantian memukul dan berjaga.</li>
+                    </ul>
+                `,
+                sumber: `
+                    <ul class="list-disc list-inside">
+                        <li>Buku Panduan Guru & Siswa PJOK Kelas 5, Kurikulum Merdeka, Kemdikbudristek, 2021.</li>
+                    </ul>
+                `,
+                soal: [
+                 { q: "Dalam permainan kasti, tugas utama regu penjaga adalah...", o: ["Memukul bola sejauh mungkin", "Berlari ke tiang hinggap", "Menangkap bola dan mematikan lawan", "Menjadi wasit"], a: 2 },
+    { q: "Setelah berhasil memukul bola dalam permainan rounders, seorang pemain harus...", o: ["Kembali ke tempat pemukul", "Berlari ke pos (base)", "Menangkap bola sendiri", "Berteriak"], a: 1 },
+    { q: "Tujuan utama dalam permainan kasti adalah...", o: ["Menyundul bola", "Memenangkan undian", "Mengumpulkan nilai dengan berlari dari satu tiang ke tiang lain", "Melompat tinggi"], a: 2 },
+    { q: "Alat yang digunakan untuk memukul bola dalam permainan kasti adalah...", o: ["Tongkat kayu", "Kaki", "Tangan", "Topi"], a: 0 },
+    { q: "Jumlah tiang hinggap dalam permainan kasti adalah...", o: ["1", "2", "3", "4"], a: 3 },
+    { q: "Jika bola ditangkap oleh regu penjaga sebelum menyentuh tanah, maka pemukul dinyatakan...", o: ["Selamat", "Mati", "Bebas", "Menang"], a: 1 },
+    { q: "Jumlah pos atau base dalam permainan rounders adalah...", o: ["2", "3", "4", "5"], a: 2 },
+    { q: "Jika bola dalam kasti ditangkap dan dilempar mengenai pemukul, maka...", o: ["Permainan diulang", "Pemain bebas", "Pemain mati", "Pemain menang"], a: 2 },
+    { q: "Permainan rounders berasal dari negara...", o: ["Indonesia", "Amerika", "Inggris", "Jepang"], a: 2 },
+    { q: "Gerakan berlari dari satu pos ke pos lainnya dalam rounders disebut...", o: ["Lari bebas", "Home run", "Lintasan", "Lari base"], a: 3 },
+    { q: "Jika seorang pemain tidak memukul bola tetapi berlari, maka disebut...", o: ["Sah", "Curang", "Mati", "Keluar"], a: 2 },
+    { q: "Pemain yang memukul bola dalam rounders disebut...", o: ["Penjaga", "Pemukul", "Pelari", "Wasit"], a: 1 },
+    { q: "Jika bola yang dipukul jatuh di luar garis batas lapangan, maka...", o: ["Home run", "Pukulan sah", "Pukulan mati", "Pukulan tidak sah"], a: 3 },
+    { q: "Posisi pemain yang bertugas melempar bola ke arah pemukul dalam rounders disebut...", o: ["Penjaga base", "Pitcher", "Runner", "Libero"], a: 1 },
+    { q: "Jika pelari berhasil kembali ke tempat semula setelah melewati semua pos, maka disebut...", o: ["Strike", "Out", "Home run", "Dead ball"], a: 2 },
+    { q: "Teknik melempar bola ke teman dalam kasti disebut...", o: ["Passing", "Strike", "Service", "Lemparan"], a: 3 },
+    { q: "Lapangan kasti berbentuk...", o: ["Bulat", "Segitiga", "Persegi panjang", "Oval"], a: 2 },
+    { q: "Jumlah pemain dalam satu regu permainan rounders biasanya adalah...", o: ["4–5 orang", "6–8 orang", "9–12 orang", "13–15 orang"], a: 2 },
+    { q: "Jika bola tidak berhasil dipukul setelah tiga kali kesempatan, maka pemain dinyatakan...", o: ["Menang", "Strike", "Out", "Home run"], a: 2 },
+    { q: "Regu penjaga dalam kasti bertugas untuk...", o: ["Berlari ke base", "Menangkap dan melempar bola ke arah pelari", "Memukul bola", "Mengatur permainan"], a: 1 },
+    { q: "Setiap kali pelari berhasil melewati semua base dan kembali ke tempat awal, tim mendapat...", o: ["1 poin", "2 poin", "5 poin", "Tidak mendapat poin"], a: 0 },
+    { q: "Dalam permainan rounders, bola dilempar ke pemukul oleh...", o: ["Wasit", "Penjaga base", "Pitcher", "Penonton"], a: 2 },
+    { q: "Jika bola mengenai pelari dalam permainan kasti, maka pelari tersebut...", o: ["Mati", "Aman", "Boleh lanjut", "Mendapat poin"], a: 0 },
+    { q: "Ketika tidak ada pemain yang bisa memukul bola dalam satu giliran, maka terjadi...", o: ["Home run", "Rotasi pemain", "Giliran regu lain", "Game over"], a: 2 },
+    { q: "Permainan rounders dimainkan di...", o: ["Air", "Ruang tertutup", "Lapangan terbuka", "Ruang kelas"], a: 2 },
+    { q: "Jika pemukul mengenai bola dan langsung tertangkap oleh regu penjaga, maka...", o: ["Lanjut berlari", "Mati", "Mendapat poin", "Kembali memukul"], a: 1 },
+    { q: "Permainan kasti melatih keterampilan...", o: ["Menulis", "Memasak", "Menangkap dan melempar bola", "Berjalan cepat"], a: 2 },
+    { q: "Jika bola menyentuh garis batas lapangan, maka bola dinyatakan...", o: ["Sah", "Tidak sah", "Diulang", "Mati"], a: 0 },
+    { q: "Jumlah tiang hinggap dalam permainan kasti adalah...", o: ["3", "4", "5", "6"], a: 1 },
+    { q: "Bentuk bola yang digunakan dalam permainan kasti dan rounders adalah...", o: ["Kotak", "Segitiga", "Bulat", "Lonjong"], a: 2 },
+    { q: "Pemain yang bertugas menangkap bola di belakang pemukul disebut...", o: ["Catcher", "Runner", "Libero", "Pitcher"], a: 0 },
+    { q: "Kasti dan rounders termasuk dalam jenis permainan...", o: ["Tradisional", "Air", "Lapangan", "Bermain sendiri"], a: 2 },
+    { q: "Permainan kasti dilakukan oleh...", o: ["1 orang", "2 orang", "2 tim yang bergantian menjadi pemukul dan penjaga", "Wasit saja"], a: 2 },
+    { q: "Dalam permainan rounders, nilai tertinggi dicapai ketika...", o: ["Menangkap bola", "Melakukan home run", "Memukul bola keluar", "Bola tidak ditangkap"], a: 1 },
+   
+                ]
+            },
+            silat: {
+                title: "Bela Diri Pencak Silat",
+                materi: `
+                    <p class="mb-4">Pencak Silat adalah seni bela diri tradisional yang merupakan warisan luhur budaya Indonesia. Selain untuk membela diri, pencak silat juga melatih disiplin, keberanian, dan sportivitas.</p>
+                    <h4 class="font-bold mt-4 mb-2">Gerak Dasar Pencak Silat:</h4>
+                    <ul class="list-disc list-inside mb-4">
+                        <li><strong>Sikap Pasang:</strong> Posisi siap sedia yang merupakan kombinasi sikap kaki dan tangan.</li>
+                        <li><strong>Kuda-kuda:</strong> Posisi menapakkan kaki untuk memperkokoh posisi tubuh. Contoh: kuda-kuda depan, belakang, dan samping.</li>
+                        <li><strong>Pola Langkah:</strong> Teknik memindahkan injakan kaki dari satu tempat ke tempat lain.</li>
+                        <li><strong>Pukulan:</strong> Serangan yang dilakukan dengan menggunakan tangan. Contoh: pukulan lurus.</li>
+                        <li><strong>Tendangan:</strong> Serangan yang dilakukan dengan menggunakan kaki. Contoh: tendangan lurus.</li>
+                        <li><strong>Tangkisan:</strong> Usaha pertahanan dengan cara mengadakan kontak langsung dengan serangan lawan.</li>
+                    </ul>
+                `,
+                sumber: `
+                    <ul class="list-disc list-inside">
+                        <li>Buku Panduan Guru & Siswa PJOK Kelas 5, Kurikulum Merdeka, Kemdikbudristek, 2021.</li>
+                    </ul>
+                `,
+                soal: [
+                    { q: "Posisi kaki yang kokoh untuk persiapan menyerang atau bertahan dalam pencak silat disebut...", o: ["Pukulan", "Kuda-kuda", "Tangkisan", "Pola langkah"], a: 1 },
+  { q: "Gerakan menahan serangan lawan dengan menggunakan tangan atau lengan disebut...", o: ["Elakan", "Pukulan", "Tendangan", "Tangkisan"], a: 3 },
+  { q: "Seni bela diri asli dari Indonesia yang diakui dunia adalah...", o: ["Karate", "Taekwondo", "Judo", "Pencak Silat"], a: 3 },
+  { q: "Serangan yang dilakukan menggunakan tangan dengan lintasan lurus ke depan disebut pukulan...", o: ["Bandul", "Samping", "Lurus", "Melingkar"], a: 2 },
+  { q: "Selain untuk membela diri, pencak silat juga mengajarkan nilai...", o: ["Kecurangan", "Kesombongan", "Disiplin dan hormat", "Permusuhan"], a: 2 },
+  { q: "Gerakan menghindar dari serangan lawan dalam pencak silat disebut...", o: ["Tangkisan", "Elakan", "Kuda-kuda", "Jatuhan"], a: 1 },
+  { q: "Tendangan yang diarahkan ke depan dengan menggunakan kaki disebut...", o: ["Tendangan samping", "Tendangan melingkar", "Tendangan belakang", "Tendangan lurus"], a: 3 },
+  { q: "Sikap hormat sebelum dan sesudah latihan pencak silat menunjukkan sikap...", o: ["Lelah", "Sombong", "Sportivitas", "Marah"], a: 2 },
+  { q: "Gerakan berpindah tempat dengan pola tertentu dalam pencak silat disebut...", o: ["Kuda-kuda", "Elakan", "Pola langkah", "Pukulan"], a: 2 },
+  { q: "Kuda-kuda yang digunakan untuk bertahan dari arah samping disebut kuda-kuda...", o: ["Tengah", "Belakang", "Samping", "Depan"], a: 2 },
+  { q: "Pencak silat mengajarkan kita untuk selalu bersikap...", o: ["Pemarah", "Penakut", "Disiplin dan rendah hati", "Pengecut"], a: 2 },
+  { q: "Tujuan utama belajar pencak silat adalah untuk...", o: ["Menjadi kuat dan jahat", "Memukul orang", "Membela diri dan menjunjung sportivitas", "Berlomba memukul"], a: 2 },
+  { q: "Pola langkah dalam pencak silat dapat membantu pesilat untuk...", o: ["Lari cepat", "Menari", "Mengecoh lawan", "Berdiri diam"], a: 2 },
+  { q: "Sikap tubuh dalam pencak silat yang siap menerima serangan disebut...", o: ["Kuda-kuda", "Langkah", "Hormat", "Tangkisan"], a: 0 },
+  { q: "Pukulan dalam pencak silat dilakukan dengan menggunakan...", o: ["Kaki", "Kepala", "Tangan", "Bahu"], a: 2 },
+  { q: "Salah satu tujuan latihan pencak silat adalah untuk melatih...", o: ["Rasa takut", "Ketakutan", "Disiplin dan keberanian", "Kemalasan"], a: 2 },
+  { q: "Tendangan dalam pencak silat dilakukan dengan menggunakan...", o: ["Tangan", "Kepala", "Lutut", "Kaki"], a: 3 },
+  { q: "Elakan samping dilakukan dengan cara...", o: ["Melompat ke depan", "Memutar badan", "Menggeser badan ke samping", "Berlari menjauh"], a: 2 },
+  { q: "Salah satu teknik dasar dalam pencak silat adalah...", o: ["Dribble", "Passing", "Tendangan", "Servis"], a: 2 },
+  { q: "Pencak silat mengajarkan kita untuk membela diri dengan...", o: ["Kekerasan", "Sopan santun dan teknik", "Senjata tajam", "Marah-marah"], a: 1 },
+  { q: "Gerakan menjatuhkan lawan disebut...", o: ["Pukulan", "Tangkisan", "Elakan", "Jatuhan"], a: 3 },
+  { q: "Kegiatan pemanasan sebelum latihan pencak silat bertujuan untuk...", o: ["Membuat lelah", "Menghindari cedera", "Menjadi pelatih", "Tidur"], a: 1 },
+  { q: "Jika kita dihormati oleh lawan sebelum bertanding, maka kita harus...", o: ["Balas menghina", "Diam saja", "Balas menghormati", "Menjauh"], a: 2 },
+  { q: "Gerakan elakan bisa menghindari...", o: ["Teman", "Musuh", "Serangan lawan", "Pelatih"], a: 2 },
+  { q: "Serangan dalam pencak silat bisa dilakukan dengan...", o: ["Melompat", "Lari", "Tangan dan kaki", "Berteriak"], a: 2 },
+  { q: "Sikap kuda-kuda harus dilakukan dengan posisi kaki yang...", o: ["Tertutup", "Seimbang dan kuat", "Lurus ke depan", "Lemah"], a: 1 },
+  { q: "Pola langkah berbentuk segitiga disebut...", o: ["Langkah empat", "Langkah dua", "Langkah tiga", "Langkah lima"], a: 2 },
+  { q: "Gerakan pukulan bandul dilakukan dari arah...", o: ["Atas ke bawah", "Samping ke depan", "Bawah ke atas", "Belakang ke depan"], a: 2 },
+  { q: "Gerakan bela diri harus dilakukan dengan sikap...", o: ["Marah", "Keras kepala", "Sopan dan percaya diri", "Penakut"], a: 2 },
+  { q: "Saat menyerang lawan, pesilat harus memperhatikan...", o: ["Emosi", "Kekuatan teman", "Posisi dan teknik", "Keberuntungan"], a: 2 },
+  { q: "Tujuan dari teknik tangkisan adalah untuk...", o: ["Menyerang lebih cepat", "Menjatuhkan lawan", "Menghindar dari pertandingan", "Menahan serangan lawan"], a: 3 },
+  { q: "Gerakan menendang sambil meloncat disebut...", o: ["Tendangan terbang", "Tendangan lutut", "Tendangan lurus", "Tendangan putar"], a: 0 },
+  { q: "Nilai-nilai yang diajarkan dalam pencak silat adalah...", o: ["Malas dan iri", "Toleransi dan hormat", "Bertengkar dan sombong", "Malu dan takut"], a: 1 },
+  { q: "Pakaian yang digunakan saat latihan pencak silat disebut...", o: ["Seragam olahraga", "Pakaian bebas", "Baju silat", "Kimono"], a: 2 },
+                ]
+            },
+            senam: {
+                title: "Gerak Dominan Senam",
+                materi: `
+                    <p class="mb-4">Senam lantai adalah aktivitas fisik yang gerakannya dilakukan di lantai dengan menggunakan alas berupa matras. Senam lantai melatih kekuatan, kelentukan, keseimbangan, dan keberanian.</p>
+                    <h4 class="font-bold mt-4 mb-2">Pola Gerak Dominan dalam Senam Lantai:</h4>
+                    <ul class="list-disc list-inside mb-4">
+                        <li><strong>Bertumpu:</strong> Menggunakan bagian tubuh (tangan atau kaki) untuk menopang berat badan. Contoh: bertumpu pada tangan saat akan melakukan guling depan.</li>
+                        <li><strong>Keseimbangan:</strong> Kemampuan mempertahankan posisi tubuh agar tidak jatuh. Contoh: sikap kapal terbang.</li>
+                        <li><strong>Berguling (Roll):</strong> Gerakan memindahkan tubuh dengan cara berguling. Contoh: guling depan (forward roll) dan guling belakang (backward roll).</li>
+                        <li><strong>Melompat dan Mendarat:</strong> Gerakan menolakkan tubuh ke udara dan kembali ke darat dengan posisi yang aman (kedua lutut sedikit ditekuk/mengeper).</li>
+                    </ul>
+                    <p class="mt-4">Keselamatan adalah hal utama dalam senam. Selalu lakukan pemanasan dan pastikan ada pengawasan dari guru atau orang dewasa.</p>
+                `,
+                sumber: `
+                    <ul class="list-disc list-inside">
+                        <li>Buku Panduan Guru & Siswa PJOK Kelas 5, Kurikulum Merdeka, Kemdikbudristek, 2021.</li>
+                    </ul>
+                `,
+                soal: [
+                    { q: "Alas yang digunakan untuk melakukan senam lantai adalah...", o: ["Kasur", "Karpet", "Matras", "Tanah"], a: 2 },
+  { q: "Gerakan memutar badan ke depan dengan posisi badan membulat disebut...", o: ["Lompat harimau", "Guling depan", "Sikap lilin", "Kayang"], a: 1 },
+  { q: "Sikap menirukan bentuk pesawat terbang bertujuan untuk melatih...", o: ["Kekuatan", "Kecepatan", "Keseimbangan", "Daya tahan"], a: 2 },
+  { q: "Saat melakukan pendaratan setelah melompat, posisi lutut yang benar adalah...", o: ["Lurus dan kaku", "Sedikit ditekuk dan mengeper", "Ditekuk hingga jongkok", "Disilangkan"], a: 1 },
+  { q: "Bagian tubuh yang pertama kali menyentuh matras saat melakukan guling depan adalah...", o: ["Kepala bagian atas", "Punggung", "Tengkuk", "Dahi"], a: 2 },
+  { q: "Sikap berdiri dengan kedua tangan bertumpu di lantai dan kaki lurus ke atas disebut...", o: ["Guling belakang", "Sikap lilin", "Kayang", "Handstand"], a: 1 },
+  { q: "Gerakan mengguling ke belakang dengan badan membulat disebut...", o: ["Guling depan", "Guling samping", "Guling belakang", "Lompat jongkok"], a: 2 },
+  { q: "Gerakan mengangkat badan ke atas dengan kedua tangan sebagai tumpuan disebut...", o: ["Sikap kapal terbang", "Handstand", "Kayang", "Sikap lilin"], a: 1 },
+  { q: "Salah satu manfaat melakukan gerakan senam adalah untuk melatih...", o: ["Kemalasan", "Kelenturan", "Ketegangan", "Kesombongan"], a: 1 },
+  { q: "Gerakan berdiri lalu tangan menumpu ke belakang dan badan melengkung ke atas disebut...", o: ["Kayang", "Sikap lilin", "Guling belakang", "Lompat harimau"], a: 0 },
+  { q: "Saat melakukan gerakan guling depan, posisi tangan berada di...", o: ["Belakang kepala", "Samping badan", "Samping telinga", "Lurus ke depan"], a: 2 },
+  { q: "Untuk menjaga keseimbangan dalam sikap kapal terbang, posisi tangan sebaiknya...", o: ["Ditekuk ke bawah", "Diluruskan ke samping", "Dilipat di dada", "Dipegang teman"], a: 1 },
+  { q: "Senam lantai biasanya dilakukan di atas permukaan yang...", o: ["Keras", "Licin", "Empuk", "Kasaran"], a: 2 },
+  { q: "Salah satu contoh senam tanpa alat adalah...", o: ["Senam bola", "Senam ritmik dengan pita", "Guling depan", "Senam dengan tali"], a: 2 },
+  { q: "Gerakan melompat yang dilakukan dengan awalan dan pendaratan disebut...", o: ["Guling belakang", "Lompat jongkok", "Handstand", "Sikap lilin"], a: 1 },
+  { q: "Gerakan guling depan dapat dilakukan dengan awalan dari posisi...", o: ["Tidur", "Berdiri", "Duduk", "Berjalan"], a: 1 },
+  { q: "Manfaat utama dari melakukan kayang adalah melatih...", o: ["Keseimbangan", "Kelincahan", "Kelenturan", "Kekuatan tangan"], a: 2 },
+  { q: "Sebelum melakukan senam lantai, sebaiknya melakukan...", o: ["Istirahat", "Pemanasan", "Makan", "Pendinginan"], a: 1 },
+  { q: "Sikap lilin dilakukan dengan posisi kaki...", o: ["Ditekuk", "Diluruskan ke atas", "Disilangkan", "Menghadap ke bawah"], a: 1 },
+  { q: "Sikap kapal terbang dilakukan dengan satu kaki sebagai tumpuan dan tangan...", o: ["Dilipat", "Di belakang", "Dibuka ke samping", "Mengangkat bola"], a: 2 },
+  { q: "Saat melakukan guling belakang, posisi tubuh harus...", o: ["Lurus kaku", "Membungkuk", "Membulat", "Tegak"], a: 2 },
+  { q: "Latihan senam secara rutin dapat meningkatkan...", o: ["Rasa lapar", "Kemalasan", "Kebugaran tubuh", "Kesombongan"], a: 2 },
+  { q: "Setelah senam sebaiknya melakukan gerakan...", o: ["Pemanasan", "Pendinginan", "Lompat-lompat", "Tidur"], a: 1 },
+  { q: "Tujuan melakukan pendinginan adalah untuk...", o: ["Memulai latihan", "Mengakhiri latihan dengan relaks", "Menambah energi", "Menambah semangat"], a: 1 },
+  { q: "Lompat jongkok dilakukan di atas alat yang disebut...", o: ["Matras", "Kuda-kuda lompat", "Meja", "Bangku"], a: 1 },
+  { q: "Gerakan senam yang bertujuan melatih kekuatan otot perut adalah...", o: ["Push-up", "Sikap lilin", "Sit-up", "Pull-up"], a: 2 },
+  { q: "Gerakan senam yang melatih otot lengan adalah...", o: ["Sit-up", "Push-up", "Guling depan", "Sikap lilin"], a: 1 },
+  { q: "Melakukan sikap kapal terbang melatih kemampuan...", o: ["Berlari", "Melompat", "Berkeseimbangan", "Berenang"], a: 2 },
+  { q: "Guling depan dan guling belakang termasuk ke dalam...", o: ["Senam ritmik", "Senam irama", "Senam lantai", "Senam alat"], a: 2 },
+  { q: "Salah satu ciri dari gerakan senam lantai adalah dilakukan di atas...", o: ["Lantai keras", "Karpet", "Matras", "Rumput"], a: 2 },
+  { q: "Senam lantai dilakukan dengan bantuan...", o: ["Guru", "Matras", "Kursi", "Bangku"], a: 1 },
+  { q: "Gerakan senam yang mengangkat tubuh dengan tangan dan kaki disebut...", o: ["Kayang", "Guling depan", "Sikap kapal terbang", "Push-up"], a: 0 },
+  { q: "Gerakan yang membantu menjaga keseimbangan tubuh saat berdiri dengan satu kaki adalah...", o: ["Kayang", "Sikap kapal terbang", "Guling belakang", "Sikap lilin"], a: 1 },
+  { q: "Senam yang menekankan gerakan dasar seperti loncat dan guling disebut...", o: ["Senam ritmik", "Senam aerobik", "Senam lantai", "Senam kesehatan"], a: 2 },
+                ]
+            },
+            irama: {
+                title: "Aktivitas Gerak Berirama",
+                materi: `
+                    <p class="mb-4">Aktivitas gerak berirama (senam irama) adalah rangkaian gerakan senam yang dilakukan dengan mengikuti irama musik, nyanyian, atau ketukan. Gerak berirama menekankan pada keselarasan gerak, kelentukan tubuh, dan kontinuitas gerakan.</p>
+                    <h4 class="font-bold mt-4 mb-2">Gerak Dasar Langkah Kaki:</h4>
+                    <ul class="list-disc list-inside mb-4">
+                        <li><strong>Langkah Biasa (Looppas):</strong> Berjalan ke depan dengan meletakkan tumit terlebih dahulu.</li>
+                        <li><strong>Langkah Rapat (Bijtrekpas):</strong> Melangkahkan kaki, kemudian kaki yang lain menyusul dan berhenti dalam posisi rapat.</li>
+                        <li><strong>Langkah Keseimbangan (Balanspas):</strong> Melangkahkan kaki ke depan, lalu kaki belakang menyusul dan sebelum menapak, kaki depan mundur lagi.</li>
+                    </ul>
+                    <h4 class="font-bold mt-4 mb-2">Kombinasi dengan Ayunan Lengan:</h4>
+                    <p>Gerakan langkah kaki dapat dikombinasikan dengan berbagai ayunan lengan, seperti ayunan satu lengan ke depan-belakang, atau ayunan dua lengan ke samping (gerakan memompa).</p>
+                `,
+                sumber: `
+                    <ul class="list-disc list-inside">
+                        <li>Buku Panduan Guru & Siswa PJOK Kelas 5, Kurikulum Merdeka, Kemdikbudristek, 2021.</li>
+                    </ul>
+                `,
+                soal: [
+                    { q: "Hal yang paling ditekankan dalam aktivitas gerak berirama adalah...", o: ["Kekuatan otot", "Kecepatan lari", "Kesesuaian gerak dengan irama", "Lompatan yang tinggi"], a: 2 },
+  { q: "Nama lain dari langkah biasa dalam gerak berirama adalah...", o: ["Galoppas", "Balanspas", "Zijpas", "Looppas"], a: 3 },
+  { q: "Sumber irama dalam senam irama bisa berasal dari, kecuali...", o: ["Musik", "Ketukan", "Nyanyian", "Teriakan"], a: 3 },
+  { q: "Gerakan dalam senam irama harus dilakukan secara...", o: ["Terputus-putus dan kaku", "Cepat dan bertenaga", "Mengalir dan tidak terputus (kontinu)", "Sangat lambat"], a: 2 },
+  { q: "Mengayunkan lengan saat melakukan gerak berirama bertujuan untuk...", o: ["Menambah beban", "Menjaga keseimbangan dan keindahan gerak", "Membuat lelah", "Tidak ada tujuannya"], a: 1 },
+  { q: "Aktivitas gerak berirama biasanya diiringi oleh...", o: ["Tepuk tangan", "Musik atau ketukan", "Nyanyian individu", "Suara peluit"], a: 1 },
+  { q: "Manfaat utama dari gerak berirama adalah meningkatkan...", o: ["Kebosanan", "Kelincahan", "Kekuatan saja", "Keseimbangan dan kelenturan"], a: 3 },
+  { q: "Gerak berirama disebut juga sebagai...", o: ["Senam kebugaran", "Senam aerobik", "Senam irama", "Senam kekuatan"], a: 2 },
+  { q: "Gerakan yang dilakukan dengan berpindah tempat disebut gerakan...", o: ["Statis", "Nonlokomotor", "Lokomotor", "Diam"], a: 2 },
+  { q: "Contoh gerakan nonlokomotor dalam gerak berirama adalah...", o: ["Melompat", "Melangkah", "Menekuk", "Berlari"], a: 2 },
+  { q: "Irama yang digunakan dalam gerak berirama bisa berupa...", o: ["Musik cepat dan keras", "Musik lembut dan berirama", "Teriakan keras", "Suara gaduh"], a: 1 },
+  { q: "Sikap awal sebelum memulai gerak berirama adalah...", o: ["Sikap jongkok", "Sikap tegak", "Sikap tidur", "Sikap lari"], a: 1 },
+  { q: "Berjalan di tempat dengan diiringi musik disebut langkah...", o: ["Samping", "Biasa", "Silang", "Depan"], a: 1 },
+  { q: "Langkah silang dalam gerak berirama berguna untuk melatih...", o: ["Kekuatan", "Keseimbangan", "Kelincahan", "Konsentrasi"], a: 1 },
+  { q: "Gerak ayunan lengan sebaiknya dilakukan dengan...", o: ["Kaku", "Tegang", "Lemah", "Lentur dan seirama"], a: 3 },
+  { q: "Gerak kaki ke samping sambil mengikuti irama disebut langkah...", o: ["Depan", "Silang", "Zijpas", "Balanspas"], a: 2 },
+  { q: "Senam irama dapat dilakukan secara berkelompok untuk melatih...", o: ["Persaingan", "Kerja sama dan kekompakan", "Kebisingan", "Kecepatan"], a: 1 },
+  { q: "Langkah yang dilakukan dengan arah menyilang disebut...", o: ["Langkah biasa", "Langkah depan", "Langkah silang", "Langkah seirama"], a: 2 },
+  { q: "Gerakan kaki dalam gerak berirama harus sesuai dengan...", o: ["Teman", "Pelatih", "Irama musik", "Suara klakson"], a: 2 },
+  { q: "Manfaat gerak berirama bagi kesehatan adalah...", o: ["Meningkatkan kecepatan", "Membuat badan menjadi kaku", "Melatih kelenturan dan koordinasi", "Mengurangi kekuatan otot"], a: 2 },
+  { q: "Senam irama dilakukan dengan gerakan yang bersifat...", o: ["Tergesa-gesa", "Berirama dan teratur", "Acak dan cepat", "Lambat dan kaku"], a: 1 },
+  { q: "Gerakan tangan dan kaki dalam senam irama harus...", o: ["Berjalan sendiri-sendiri", "Tidak beraturan", "Saling berlawanan", "Bersamaan dan selaras"], a: 3 },
+  { q: "Musik pengiring gerak berirama harus memiliki...", o: ["Irama dan tempo yang sesuai", "Suara keras", "Ketukan acak", "Lirik lagu"], a: 0 },
+  { q: "Aktivitas gerak berirama dapat dilakukan dengan alat, kecuali...", o: ["Pita", "Bola", "Tali", "Sepeda"], a: 3 },
+  { q: "Langkah keseimbangan dalam gerak berirama dilakukan dengan cara...", o: ["Berjalan cepat", "Melompat tinggi", "Melangkah sambil menjaga tubuh tetap seimbang", "Berlari pelan"], a: 2 },
+  { q: "Senam irama sering dipertunjukkan dalam bentuk...", o: ["Lomba maraton", "Pentas seni atau perlombaan", "Lari estafet", "Permainan bola"], a: 1 },
+  { q: "Tujuan utama latihan gerak berirama adalah untuk...", o: ["Menambah beban", "Melatih teknik tendangan", "Meningkatkan fleksibilitas dan koordinasi", "Melatih lompatan jauh"], a: 2 },
+  { q: "Langkah kaki ke depan sesuai irama disebut...", o: ["Looppas", "Zijpas", "Silang", "Balanspas"], a: 0 },
+  { q: "Langkah kecil ke depan dan ke belakang sambil menjaga irama disebut...", o: ["Langkah silang", "Langkah kombinasi", "Langkah keseimbangan", "Langkah depan"], a: 2 },
+  { q: "Gerak berirama menggabungkan gerakan dengan...", o: ["Lompat tali", "Nyanyian dan teriakan", "Musik atau ketukan", "Permainan bola"], a: 2 },
+  { q: "Saat melakukan gerak berirama, tubuh harus dalam keadaan...", o: ["Tegang", "Kaku", "Relaks dan siap bergerak", "Diam saja"], a: 2 },
+  { q: "Langkah dengan satu kaki maju dan satu kaki mundur secara bergantian disebut...", o: ["Langkah silang", "Balanspas", "Langkah tegap", "Langkah miring"], a: 1 },
+  { q: "Tujuan dari gerakan senam irama adalah untuk mengembangkan unsur...", o: ["Kekuatan dan kecepatan", "Kelenturan dan estetika", "Kebingungan dan keraguan", "Keberanian dan kegarangan"], a: 1 },
+  { q: "Gerakan mengangkat lutut setinggi pinggang dalam gerak berirama disebut...", o: ["Langkah angkat lutut", "Langkah silang", "Langkah looppas", "Langkah zijpas"], a: 0 },
+                ]
+            },
+            air: {
+                title: "Aktivitas di Air",
+                materi: `
+                    <p class="mb-4">Aktivitas di air bukan hanya menyenangkan, tetapi juga sangat baik untuk kesehatan. Sebelum memulai, yang terpenting adalah memahami cara menjaga keselamatan di dalam dan di sekitar air.</p>
+                    <h4 class="font-bold mt-4 mb-2">Gerak Dasar di Air:</h4>
+                    <ul class="list-disc list-inside mb-4">
+                        <li><strong>Pengenalan Air:</strong> Proses adaptasi dengan air, seperti berjalan di kolam dangkal, memasukkan wajah ke air, dan latihan pernapasan dengan meniup gelembung.</li>
+                        <li><strong>Meluncur:</strong> Gerakan dasar untuk bergerak maju di air. Dilakukan dengan menolakkan kaki pada dinding kolam dengan posisi tubuh lurus.</li>
+                        <li><strong>Gerakan Tungkai (Kaki):</strong> Pada renang gaya dada, gerakan tungkai meniru gerakan kaki katak saat berenang.</li>
+                        <li><strong>Gerakan Lengan (Tangan):</strong> Gerakan lengan pada gaya dada adalah membuka tangan ke samping dan mendorong air ke belakang.</li>
+                    </ul>
+                    <p class="mt-4">Selalu lakukan pemanasan sebelum masuk ke kolam dan jangan berenang sendirian tanpa pengawasan.</p>
+                `,
+                sumber: `
+                    <ul class="list-disc list-inside">
+                        <li>Buku Panduan Guru & Siswa PJOK Kelas 5, Kurikulum Merdeka, Kemdikbudristek, 2021.</li>
+                    </ul>
+                `,
+                soal: [
+                    { q: "Gerakan dasar untuk memulai renang dengan menolakkan kaki pada dinding kolam disebut...", o: ["Mengapung", "Menyelam", "Meluncur", "Berjalan"], a: 2 },
+  { q: "Gerakan tungkai (kaki) pada renang gaya dada sering disebut menyerupai gerakan...", o: ["Kaki lumba-lumba", "Kaki katak", "Kaki anjing", "Kaki buaya"], a: 1 },
+  { q: "Tujuan dari pengenalan air sebelum belajar berenang adalah...", o: ["Agar bisa langsung menyelam", "Untuk beradaptasi dan menghilangkan rasa takut", "Untuk membasahi badan", "Agar bisa minum air kolam"], a: 1 },
+  { q: "Aturan keselamatan yang paling penting saat berada di kolam renang adalah...", o: ["Makan di pinggir kolam", "Berenang sendirian", "Tidak melakukan pemanasan", "Selalu dalam pengawasan orang dewasa"], a: 3 },
+  { q: "Latihan pernapasan awal di air dapat dilakukan dengan cara...", o: ["Menahan napas selama mungkin", "Meniup gelembung udara di dalam air", "Berteriak di dalam air", "Minum air kolam"], a: 1 },
+  { q: "Mengapung di air dengan posisi terlentang disebut mengapung secara...", o: ["Vertikal", "Horizontal", "Miring", "Menunduk"], a: 1 },
+  { q: "Gerakan lengan pada renang gaya bebas dilakukan secara...", o: ["Bergantian", "Bersamaan", "Berhenti", "Diluruskan ke bawah"], a: 0 },
+  { q: "Pakaian yang tepat saat berenang di kolam renang adalah...", o: ["Pakaian biasa", "Pakaian olahraga", "Pakaian renang", "Seragam sekolah"], a: 2 },
+  { q: "Sebelum masuk ke air, kita sebaiknya melakukan...", o: ["Tidur", "Makan berat", "Pemanasan", "Perkelahian"], a: 2 },
+  { q: "Tujuan melakukan pemanasan sebelum berenang adalah untuk...", o: ["Cepat masuk air", "Menghindari kram otot", "Menjadi lapar", "Memanaskan kolam"], a: 1 },
+  { q: "Gerakan kaki dalam renang gaya bebas disebut juga gerakan...", o: ["Dorong dan tarik", "Tendangan kupu-kupu", "Tendangan naik turun", "Putaran kaki"], a: 2 },
+  { q: "Jika ingin mengambil napas saat berenang gaya bebas, kepala harus...", o: ["Ditegakkan ke atas", "Diputar ke samping", "Dibawa ke bawah", "Tidak boleh gerak"], a: 1 },
+  { q: "Saat belajar berenang, alat bantu yang sering digunakan adalah...", o: ["Kursi", "Pelampung", "Topi", "Meja"], a: 1 },
+  { q: "Renang gaya dada juga dikenal dengan istilah...", o: ["Gaya punggung", "Gaya katak", "Gaya kupu-kupu", "Gaya bebas"], a: 1 },
+  { q: "Salah satu manfaat berenang adalah untuk...", o: ["Membuat lapar", "Melatih kekuatan otot dan jantung", "Menambah rasa takut", "Mengurangi tinggi badan"], a: 1 },
+  { q: "Sikap tubuh saat meluncur sebaiknya dalam posisi...", o: ["Miring", "Berdiri", "Horizontal dan lurus", "Jongkok"], a: 2 },
+  { q: "Gerakan mendorong air ke belakang dengan lengan saat berenang berfungsi untuk...", o: ["Menghambat gerakan", "Memutar tubuh", "Mendorong tubuh ke depan", "Menahan napas"], a: 2 },
+  { q: "Agar tidak mudah tenggelam saat berenang, kita harus bisa melakukan...", o: ["Melompat", "Mengapung", "Membungkuk", "Menyelam jauh"], a: 1 },
+  { q: "Berenang di tempat dalam air dangkal dapat melatih...", o: ["Kekuatan suara", "Kemampuan menyelam", "Kemampuan mengapung dan keseimbangan", "Kekuatan pukulan"], a: 2 },
+  { q: "Salah satu bahaya bermain di kolam tanpa pengawasan adalah...", o: ["Kram otot", "Berhasil berenang", "Baju basah", "Menjadi kurus"], a: 0 },
+  { q: "Gerakan mengangkat kepala keluar air saat berenang berguna untuk...", o: ["Berbicara", "Menghirup udara", "Makan", "Tertawa"], a: 1 },
+  { q: "Jika terjadi kram saat berenang, sebaiknya segera...", o: ["Melanjutkan renang", "Berteriak keras", "Berhenti dan minta bantuan", "Tidur di air"], a: 2 },
+  { q: "Berenang secara teratur dapat melatih kemampuan...", o: ["Berbicara", "Berkeringat", "Keseimbangan, pernapasan, dan daya tahan", "Tidur cepat"], a: 2 },
+  { q: "Saat berenang di pantai, penting untuk memperhatikan...", o: ["Pasirnya", "Jumlah ombak", "Petunjuk keselamatan dan penjaga pantai", "Jumlah makanan"], a: 2 },
+  { q: "Melakukan latihan meniup air disebut juga dengan latihan...", o: ["Peregangan", "Meluncur", "Pernapasan", "Keseimbangan"], a: 2 },
+  { q: "Posisi lengan pada saat meluncur sebaiknya...", o: ["Lurus ke depan rapat", "Di samping tubuh", "Di belakang", "Diluruskan ke bawah"], a: 0 },
+  { q: "Renang termasuk ke dalam olahraga yang...", o: ["Biasa", "Berat", "Membosankan", "Menyenangkan dan menyehatkan"], a: 3 },
+  { q: "Latihan dasar yang dilakukan anak-anak sebelum berenang adalah...", o: ["Tidur siang", "Menari", "Pengenalan air dan pernapasan", "Main layangan"], a: 2 },
+  { q: "Gerakan tangan dan kaki saat berenang harus dilakukan dengan...", o: ["Asal-asalan", "Bersamaan", "Teratur dan seirama", "Pelan-pelan sekali"], a: 2 },
+  { q: "Tempat berenang yang aman dan sesuai adalah...", o: ["Sungai deras", "Kolam renang umum", "Selokan", "Sawah"], a: 1 },
+  { q: "Ketika meluncur, posisi kepala sebaiknya...", o: ["Menoleh ke samping", "Menghadap ke atas", "Menghadap ke bawah", "Diangkat tinggi"], a: 2 },
+  { q: "Gerakan yang dilakukan untuk memindahkan tubuh dalam air disebut...", o: ["Mengapung", "Mendorong", "Berenang", "Melompat"], a: 2 },
+  { q: "Alat pelampung digunakan saat belajar berenang untuk membantu...", o: ["Berenang cepat", "Mengapung dan merasa aman", "Tidur di air", "Melompat lebih jauh"], a: 1 },
+  { q: "Sebelum masuk kolam, kita harus memastikan...", o: ["Air kolam bersih dan aman", "Ada makanan", "Teman sudah mandi", "Baju renang baru"], a: 0 },
+                ]
+            },
+            kebugaran: {
+                title: "Kebugaran untuk Kesehatan",
+                materi: `
+                    <p class="mb-4"><strong>Kebugaran jasmani</strong> adalah kesanggupan dan kemampuan tubuh melakukan penyesuaian terhadap pembebanan fisik yang diberikan kepadanya tanpa menimbulkan kelelahan yang berlebihan.</p>
+                    <h4 class="font-bold mt-4 mb-2">Komponen Kebugaran Jasmani:</h4>
+                    <ul class="list-disc list-inside mb-4">
+                        <li><strong>Kekuatan (Strength):</strong> Kemampuan otot untuk menerima beban sewaktu bekerja. Latihan: <em>push-up, sit-up, angkat beban</em>.</li>
+                        <li><strong>Daya Tahan (Endurance):</strong> Kemampuan seseorang untuk bekerja dalam waktu yang lama. Latihan: lari, berenang, bersepeda.</li>
+                        <li><strong>Kecepatan (Speed):</strong> Kemampuan melakukan gerakan dalam waktu yang singkat. Latihan: lari cepat (sprint).</li>
+                        <li><strong>Kelentukan (Flexibility):</strong> Kemampuan sendi untuk bergerak seluas-luasnya. Latihan: peregangan, cium lutut, kayang.</li>
+                    </ul>
+                    <p class="mt-4">Untuk menjaga kebugaran, lakukan aktivitas fisik secara teratur, minimal 30 menit setiap hari, dan jangan lupa melakukan <strong>pemanasan</strong> sebelumnya dan <strong>pendinginan</strong> sesudahnya.</p>
+                `,
+                sumber: `
+                    <ul class="list-disc list-inside">
+                        <li>Buku Panduan Guru & Siswa PJOK Kelas 5, Kurikulum Merdeka, Kemdikbudristek, 2021.</li>
+                    </ul>
+                `,
+                soal: [
+                     { q: "Kemampuan otot untuk menahan beban saat bekerja disebut...", o: ["Kecepatan", "Kekuatan", "Kelentukan", "Keseimbangan"], a: 1 },
+  { q: "Latihan lari jarak jauh bertujuan untuk meningkatkan...", o: ["Kekuatan otot lengan", "Kelentukan pinggang", "Daya tahan jantung dan paru-paru", "Kecepatan reaksi"], a: 2 },
+  { q: "Gerakan mencium lutut saat posisi duduk bertujuan untuk melatih...", o: ["Kekuatan", "Kecepatan", "Kelentukan", "Daya tahan"], a: 2 },
+  { q: "Aktivitas yang dilakukan sebelum memulai olahraga inti untuk mempersiapkan otot disebut...", o: ["Pendinginan", "Pemanasan", "Istirahat", "Inti"], a: 1 },
+  { q: "Manakah di bawah ini yang merupakan latihan untuk meningkatkan kekuatan otot perut?", o: ["Push-up", "Lari", "Sit-up", "Kayang"], a: 2 },
+  { q: "Latihan push-up bertujuan untuk melatih otot bagian...", o: ["Perut", "Lengan dan dada", "Pinggul", "Leher"], a: 1 },
+  { q: "Melakukan peregangan setelah olahraga disebut juga dengan...", o: ["Pemanasan", "Latihan inti", "Pendinginan", "Tidur"], a: 2 },
+  { q: "Latihan kebugaran jasmani sebaiknya dilakukan secara...", o: ["Jarang", "Berlebihan", "Rutin dan teratur", "Sekali seumur hidup"], a: 2 },
+  { q: "Latihan lari cepat termasuk dalam latihan untuk melatih...", o: ["Kekuatan", "Kecepatan", "Keseimbangan", "Kelentukan"], a: 1 },
+  { q: "Salah satu manfaat olahraga bagi tubuh adalah...", o: ["Menambah rasa malas", "Membuat tubuh sakit", "Menjaga kesehatan dan kebugaran", "Menyebabkan cedera"], a: 2 },
+  { q: "Latihan keseimbangan dapat dilakukan dengan cara...", o: ["Tidur tengkurap", "Berdiri dengan satu kaki", "Melompat", "Duduk bersila"], a: 1 },
+  { q: "Sit-up dilakukan dalam posisi...", o: ["Berdiri", "Duduk", "Tidur telentang", "Tidur tengkurap"], a: 2 },
+  { q: "Latihan untuk meningkatkan kelentukan tubuh adalah...", o: ["Menekuk badan ke depan", "Lompat tali", "Push-up", "Jogging"], a: 0 },
+  { q: "Olahraga yang baik dilakukan minimal selama...", o: ["5 menit", "10 menit", "30 menit", "2 jam"], a: 2 },
+  { q: "Lari bolak-balik antara dua titik disebut juga dengan...", o: ["Sprint", "Interval", "Shuttle run", "Jogging"], a: 2 },
+  { q: "Gerakan melompat sambil membuka dan menutup tangan serta kaki disebut...", o: ["Push-up", "Sit-up", "Jumping jack", "Pull-up"], a: 2 },
+  { q: "Latihan kebugaran jasmani berguna untuk...", o: ["Menurunkan daya tahan tubuh", "Meningkatkan kebugaran dan kesehatan", "Menambah rasa malas", "Membuat cepat lelah"], a: 1 },
+  { q: "Alat yang digunakan untuk mengukur detak jantung adalah...", o: ["Penggaris", "Termometer", "Stopwatch", "Stetoskop"], a: 3 },
+  { q: "Manakah yang merupakan contoh olahraga daya tahan?", o: ["Lari jarak jauh", "Lompat tali", "Bermain gasing", "Tiduran"], a: 0 },
+  { q: "Lompat tali bisa melatih...", o: ["Kelincahan dan daya tahan", "Keseimbangan saja", "Tidur nyenyak", "Berbicara cepat"], a: 0 },
+  { q: "Menendang bola dapat melatih otot...", o: ["Lengan", "Leher", "Kaki", "Punggung"], a: 2 },
+  { q: "Mengangkat beban ringan dapat meningkatkan...", o: ["Kelincahan", "Kekuatan otot", "Kelentukan", "Keseimbangan"], a: 1 },
+  { q: "Aktivitas fisik yang dilakukan secara berlebihan dapat menyebabkan...", o: ["Kebugaran meningkat", "Cedera", "Peningkatan energi", "Tidur lebih nyenyak"], a: 1 },
+  { q: "Bermain lompat tali secara berulang bisa meningkatkan...", o: ["Keseimbangan", "Kekuatan", "Kelincahan", "Daya tahan"], a: 3 },
+  { q: "Salah satu contoh latihan kelincahan adalah...", o: ["Naik tangga", "Berlari zig-zag", "Menarik tali", "Tidur tengkurap"], a: 1 },
+  { q: "Menjaga pola makan yang sehat termasuk bagian dari...", o: ["Olahraga", "Kesehatan mental", "Kebugaran jasmani", "Latihan otot"], a: 2 },
+  { q: "Berjalan kaki setiap pagi termasuk latihan untuk meningkatkan...", o: ["Keseimbangan", "Daya tahan tubuh", "Kekuatan lengan", "Kelincahan"], a: 1 },
+  { q: "Pull-up dilakukan untuk melatih otot...", o: ["Perut", "Kaki", "Lengan dan punggung", "Leher"], a: 2 },
+  { q: "Kebugaran jasmani sangat penting agar tubuh menjadi...", o: ["Cepat lelah", "Kaku", "Lemah", "Sehat dan kuat"], a: 3 },
+  { q: "Latihan menekuk badan ke depan bermanfaat untuk...", o: ["Kelentukan otot pinggang", "Kecepatan berlari", "Kekuatan tangan", "Kelincahan"], a: 0 },
+  { q: "Jogging termasuk ke dalam latihan...", o: ["Kelincahan", "Kekuatan", "Daya tahan", "Keseimbangan"], a: 2 },
+  { q: "Berlatih secara konsisten akan membantu meningkatkan...", o: ["Malas gerak", "Cedera", "Kebugaran tubuh", "Tidur malam"], a: 2 },
+  { q: "Salah satu ciri orang yang bugar adalah...", o: ["Mudah lelah", "Jarang bergerak", "Tubuh lincah dan tidak mudah sakit", "Tidak suka olahraga"], a: 2 },
+  { q: "Melatih kebugaran jasmani akan membuat tubuh menjadi lebih...", o: ["Cepat bosan", "Cepat sakit", "Bugar dan sehat", "Kaku dan lemah"], a: 2 },
+                ]
+            },
+            bahaya: {
+                title: "Bahaya Merokok & Miras",
+                materi: `
+                    <p class="mb-4">Menjaga kesehatan adalah kewajiban kita. Salah satu caranya adalah dengan menghindari kebiasaan buruk seperti merokok dan mengonsumsi minuman keras (miras).</p>
+                    <h4 class="font-bold mt-4 mb-2">Bahaya Merokok:</h4>
+                    <p class="mb-2">Rokok mengandung ribuan zat kimia berbahaya, di antaranya:</p>
+                    <ul class="list-disc list-inside mb-4">
+                        <li><strong>Nikotin:</strong> Menyebabkan kecanduan (ketagihan) yang membuat sulit berhenti.</li>
+                        <li><strong>Tar:</strong> Zat lengket yang menempel di paru-paru dan dapat menyebabkan kanker.</li>
+                        <li><strong>Karbon Monoksida:</strong> Gas beracun yang mengikat oksigen dalam darah, membuat tubuh kekurangan oksigen.</li>
+                    </ul>
+                    <h4 class="font-bold mt-4 mb-2">Bahaya Minuman Keras (Alkohol):</h4>
+                    <p class="mb-2">Alkohol dapat merusak organ tubuh secara permanen, seperti:</p>
+                    <ul class="list-disc list-inside mb-4">
+                        <li>Merusak hati dan otak.</li>
+                        <li>Menurunkan kesadaran dan membuat orang tidak bisa berpikir jernih.</li>
+                        <li>Menyebabkan kecanduan.</li>
+                    </ul>
+                    <p class="mt-4 font-bold">Cara terbaik untuk menghindarinya adalah dengan berani berkata "TIDAK" dan memilih lingkungan pertemanan yang positif.</p>
+                `,
+                sumber: `
+                    <ul class="list-disc list-inside">
+                        <li>Buku Panduan Guru & Siswa PJOK Kelas 5, Kurikulum Merdeka, Kemdikbudristek, 2021.</li>
+                        <li>Materi edukasi dari Kementerian Kesehatan RI.</li>
+                    </ul>
+                `,
+                soal: [
+                    { q: "Zat dalam rokok yang membuat seseorang menjadi ketagihan atau kecanduan adalah...", o: ["Tar", "Karbon Monoksida", "Nikotin", "Oksigen"], a: 2 },
+  { q: "Organ tubuh yang paling utama dirusak oleh asap rokok adalah...", o: ["Jantung", "Hati", "Ginjal", "Paru-paru"], a: 3 },
+  { q: "Minuman keras mengandung zat berbahaya yang disebut...", o: ["Nikotin", "Alkohol", "Kafein", "Tar"], a: 1 },
+  { q: "Sikap yang benar jika ada teman yang menawari rokok adalah...", o: ["Mencobanya sedikit", "Menerima tapi tidak dihisap", "Dengan tegas menolak", "Memarahi teman tersebut"], a: 2 },
+  { q: "Orang yang tidak merokok tetapi menghirup asap rokok dari orang lain disebut...", o: ["Perokok aktif", "Perokok pasif", "Perokok hebat", "Perokok ringan"], a: 1 },
+  { q: "Bahaya utama dari minuman keras adalah merusak...", o: ["Pakaian", "Kesehatan tubuh", "Alat tulis", "Sepatu"], a: 1 },
+  { q: "Nikotin dalam rokok dapat merusak sistem...", o: ["Pencernaan", "Saraf", "Peredaran darah", "Otot"], a: 2 },
+  { q: "Merokok sejak usia dini dapat menyebabkan...", o: ["Tubuh sehat", "Cepat tinggi", "Pertumbuhan terganggu", "Pintar matematika"], a: 2 },
+  { q: "Minuman keras dapat menyebabkan seseorang kehilangan...", o: ["Pekerjaan rumah", "Selera makan", "Kesadaran", "Buku"], a: 2 },
+  { q: "Penyakit serius akibat merokok antara lain...", o: ["Batuk ringan", "Demam", "Kanker paru-paru", "Pilek"], a: 2 },
+  { q: "Salah satu cara menghindari bahaya merokok adalah...", o: ["Menonton iklannya", "Membeli untuk orang tua", "Menjauhi lingkungan perokok", "Menghirup asapnya saja"], a: 2 },
+  { q: "Minuman keras juga dikenal dengan istilah...", o: ["Air mineral", "Minuman manis", "Minuman berenergi", "Minuman beralkohol"], a: 3 },
+  { q: "Bahaya rokok tidak hanya dirasakan perokok tetapi juga...", o: ["Tanaman", "Orang di sekitarnya", "Hewan peliharaan", "Pakaian"], a: 1 },
+  { q: "Zat dalam rokok yang menyebabkan warna hitam pada paru-paru adalah...", o: ["Alkohol", "Tar", "Kafein", "Oksigen"], a: 1 },
+  { q: "Minuman keras bisa menyebabkan kecelakaan karena...", o: ["Meningkatkan fokus", "Membuat orang lebih kuat", "Menurunkan kesadaran", "Membuat orang rajin"], a: 2 },
+  { q: "Perilaku menghindari merokok dan miras adalah contoh hidup...", o: ["Santai", "Berbahaya", "Sehat", "Pemalas"], a: 2 },
+  { q: "Salah satu pengaruh negatif merokok bagi pelajar adalah...", o: ["Semakin rajin", "Sulit berkonsentrasi belajar", "Semakin pintar", "Bertambah tinggi"], a: 1 },
+  { q: "Rokok dan minuman keras termasuk dalam jenis zat...", o: ["Gizi", "Pembersih", "Adiktif", "Vitamin"], a: 2 },
+  { q: "Salah satu akibat jangka panjang mengonsumsi minuman keras adalah...", o: ["Meningkatkan nafsu makan", "Kerusakan hati", "Tidur nyenyak", "Cepat hafal pelajaran"], a: 1 },
+  { q: "Anak yang sehat adalah anak yang...", o: ["Sering merokok", "Mencoba minuman keras", "Menjauhi zat berbahaya", "Ikut-ikutan teman merokok"], a: 2 },
+  { q: "Salah satu tempat yang dilarang merokok adalah...", o: ["Kamar mandi", "Tempat umum", "Kebun", "Dapur"], a: 1 },
+  { q: "Bahaya dari asap rokok bagi ibu hamil adalah...", o: ["Menyebabkan bayi sehat", "Meningkatkan gizi", "Membuat bayi lahir cacat", "Mempercepat pertumbuhan bayi"], a: 2 },
+  { q: "Sikap kita terhadap iklan rokok seharusnya adalah...", o: ["Tertarik dan mencoba", "Tidak peduli", "Menolaknya", "Menyebarkannya"], a: 2 },
+  { q: "Orang yang sering merokok disebut...", o: ["Perokok pasif", "Perokok aktif", "Perokok awet", "Perokok sehat"], a: 1 },
+  { q: "Rokok elektrik juga bisa membahayakan karena mengandung...", o: ["Air putih", "Uap sehat", "Nikotin", "Vitamin"], a: 2 },
+  { q: "Rokok dan miras dapat merusak masa depan karena...", o: ["Meningkatkan semangat belajar", "Menambah semangat hidup", "Menyebabkan ketergantungan", "Membuat bahagia"], a: 2 },
+  { q: "Alkohol dalam miras dapat membuat kerja otak menjadi...", o: ["Semakin cepat", "Lambat", "Tajam", "Sempurna"], a: 1 },
+  { q: "Salah satu cara menolak ajakan merokok dengan sopan adalah mengatakan...", o: ["Nanti saja", "Maaf, saya tidak merokok", "Saya takut", "Coba sedikit dulu"], a: 1 },
+  { q: "Pemerintah melarang perokok anak-anak karena...", o: ["Mengurangi pendapatan", "Anak-anak belum waktunya", "Anak-anak tidak suka", "Anak-anak kuat"], a: 1 },
+  { q: "Penyakit yang dapat ditimbulkan dari miras adalah...", o: ["Sakit gigi", "Gangguan hati", "Sakit mata", "Batuk"], a: 1 },
+  { q: "Menghindari pergaulan yang buruk adalah salah satu cara...", o: ["Belajar cepat", "Melatih otot", "Menjaga kesehatan", "Memperbanyak teman"], a: 2 },
+  { q: "Salah satu ajaran agama tentang rokok dan miras adalah...", o: ["Diperbolehkan sedikit", "Haram atau dilarang", "Boleh dicoba", "Untuk bersenang-senang"], a: 1 },
+  { q: "Jika melihat orang dewasa merokok di tempat umum, sebaiknya...", o: ["Ikut menyalakan rokok", "Menjauh dari asap rokok", "Memarahi orang itu", "Diam saja di dekatnya"], a: 1 },
+  { q: "Menghindari rokok dan miras dapat membantu kita menjadi anak yang...", o: ["Lemah", "Sehat dan berprestasi", "Malas", "Mudah sakit"], a: 1 },
+                ]
+            }
+        };
+
+        // --- APPLICATION STATE ---
+        let currentUser = { name: '', kelas: '' };
+        let currentQuiz = { topicId: '', questions: [], currentQuestionIndex: 0, score: 0 };
+        const KKM = 80; // Kriteria Kelulusan Minimal
+
+        // --- DOM ELEMENTS ---
+        const screens = {
+            welcome: document.getElementById('welcomeScreen'),
+            biodata: document.getElementById('biodataScreen'),
+            mainMenu: document.getElementById('mainMenuScreen'),
+            materi: document.getElementById('materiScreen'),
+            quiz: document.getElementById('quizScreen'),
+            result: document.getElementById('resultScreen'),
+            nilai: document.getElementById('nilaiScreen'),
+            sertifikat: document.getElementById('sertifikatScreen')
+        };
+        const startButton = document.getElementById('startButton');
+        const studentNameInput = document.getElementById('studentName');
+        const studentClassSelect = document.getElementById('studentClass');
+        const topicGrid = document.getElementById('topicGrid');
+        const backToMenuButtons = document.querySelectorAll('.backToMenuButton');
+        const viewScoresButton = document.getElementById('viewScoresButton');
+        const printCertificateButton = document.getElementById('printCertificateButton');
+        const showBiodataButton = document.getElementById('showBiodataButton');
+        const backToWelcomeButton = document.getElementById('backToWelcomeButton');
+        const backToResultButton = document.querySelector('#sertifikatScreen .backToResultButton');
+
+        // --- FUNCTIONS ---
+        function showScreen(screenId) {
+            Object.values(screens).forEach(screen => screen.classList.add('hidden'));
+            screens[screenId].classList.remove('hidden');
+        }
+
+        function initMainMenu() {
+            topicGrid.innerHTML = '';
+            document.getElementById('welcomeMessage').textContent = `Halo, ${currentUser.name} dari kelas ${currentUser.kelas}! Ayo mulai belajar.`;
+            Object.keys(data).forEach(topicId => {
+                const topic = data[topicId];
+                const card = document.createElement('div');
+                card.className = 'bg-white p-6 rounded-xl shadow-lg flex flex-col justify-between hover:shadow-2xl hover:-translate-y-1 transition-all duration-300';
+                card.innerHTML = `
+                    <div>
+                        <h3 class="text-xl font-bold text-blue-800 mb-2">${topic.title}</h3>
+                        <p class="text-gray-500 text-sm mb-4">Materi dan latihan soal tentang ${topic.title.toLowerCase()}.</p>
+                    </div>
+                    <div class="flex gap-2 mt-4">
+                        <button data-topic="${topicId}" class="read-materi-btn flex-1 bg-blue-100 text-blue-800 font-semibold py-2 px-3 rounded-lg hover:bg-blue-200 transition">Baca Materi</button>
+                        <button data-topic="${topicId}" class="start-quiz-btn flex-1 bg-green-500 text-white font-semibold py-2 px-3 rounded-lg hover:bg-green-600 transition">Mulai Latihan</button>
+                    </div>
+                `;
+                topicGrid.appendChild(card);
+            });
+        }
+
+        function showMateri(topicId) {
+            const topic = data[topicId];
+            document.getElementById('materiTitle').textContent = topic.title;
+            document.getElementById('materiContent').innerHTML = topic.materi;
+            document.getElementById('materiSources').innerHTML = topic.sumber;
+            showScreen('materi');
+        }
+
+        function startQuiz(topicId) {
+            currentQuiz = {
+                topicId: topicId,
+                questions: [...data[topicId].soal].sort(() => 0.5 - Math.random()), // Shuffle questions
+                currentQuestionIndex: 0,
+                score: 0
+            };
+            document.getElementById('quizTitle').textContent = data[topicId].title;
+            displayQuestion();
+            showScreen('quiz');
+        }
+
+        function displayQuestion() {
+            const question = currentQuiz.questions[currentQuiz.currentQuestionIndex];
+            const progress = (currentQuiz.currentQuestionIndex / currentQuiz.questions.length) * 100;
+            
+            document.getElementById('progressIndicator').textContent = `Soal ${currentQuiz.currentQuestionIndex + 1} dari ${currentQuiz.questions.length}`;
+            document.getElementById('progressBar').style.width = `${progress}%`;
+            document.getElementById('questionText').textContent = question.q;
+
+            const answerOptionsContainer = document.getElementById('answerOptions');
+            answerOptionsContainer.innerHTML = '';
+            question.o.forEach((option, index) => {
+                const button = document.createElement('button');
+                button.className = 'w-full text-left p-4 bg-white border-2 border-blue-200 rounded-lg hover:bg-blue-100 hover:border-blue-400 transition';
+                button.textContent = option;
+                button.dataset.index = index;
+                button.onclick = () => selectAnswer(index);
+                answerOptionsContainer.appendChild(button);
+            });
+        }
+
+        function selectAnswer(selectedIndex) {
+            const question = currentQuiz.questions[currentQuiz.currentQuestionIndex];
+            const isCorrect = selectedIndex === question.a;
+            
+            if (isCorrect) {
+                currentQuiz.score++;
+            }
+
+            const feedbackContainer = document.getElementById('feedbackContainer');
+            const feedbackText = document.getElementById('feedbackText');
+            const answerButtons = document.getElementById('answerOptions').children;
+
+            // Disable all buttons after selection
+            for (let btn of answerButtons) {
+                btn.disabled = true;
+                // Highlight correct answer in green
+                if (parseInt(btn.dataset.index, 10) === question.a) {
+                    btn.classList.add('bg-green-200', 'border-green-500');
+                }
+            }
+            
+            // Highlight selected answer
+            const selectedButton = answerButtons[selectedIndex];
+            if (isCorrect) {
+                selectedButton.classList.remove('bg-blue-100');
+                selectedButton.classList.add('bg-green-200', 'border-green-500');
+                feedbackText.textContent = "Benar!";
+                feedbackText.className = "text-2xl font-bold text-green-600";
+            } else {
+                selectedButton.classList.remove('bg-blue-100');
+                selectedButton.classList.add('bg-red-200', 'border-red-500');
+                feedbackText.textContent = "Kurang Tepat!";
+                feedbackText.className = "text-2xl font-bold text-red-600";
+            }
+            
+            feedbackContainer.classList.remove('hidden');
+
+            setTimeout(() => {
+                feedbackContainer.classList.add('hidden');
+                currentQuiz.currentQuestionIndex++;
+                if (currentQuiz.currentQuestionIndex < currentQuiz.questions.length) {
+                    displayQuestion();
+                } else {
+                    showResult();
+                }
+            }, 1500);
+        }
+
+        async function showResult() {
+            const finalScoreValue = Math.round((currentQuiz.score / currentQuiz.questions.length) * 100);
+            document.getElementById('resultTopic').textContent = data[currentQuiz.topicId].title;
+            document.getElementById('finalScore').textContent = finalScoreValue;
+
+            const resultMessage = document.getElementById('resultMessage');
+            const viewCertificateButton = document.getElementById('viewCertificateButton');
+
+            if (finalScoreValue >= KKM) {
+                resultMessage.textContent = "Luar biasa! Kamu berhasil menguasai materi ini dengan sangat baik.";
+                resultMessage.className = "text-xl font-medium mb-8 text-green-700";
+                viewCertificateButton.classList.remove('hidden');
+            } else {
+                resultMessage.textContent = "Jangan menyerah, ayo coba pelajari lagi materinya dan ulangi latihannya!";
+                resultMessage.className = "text-xl font-medium mb-8 text-red-700";
+                viewCertificateButton.classList.add('hidden');
+            }
+            
+            // Save score to Firestore
+            if (userId && scoresCollectionRef) {
+                try {
+                    await addDoc(scoresCollectionRef, {
+                        name: currentUser.name,
+                        class: currentUser.kelas,
+                        topic: data[currentQuiz.topicId].title,
+                        score: finalScoreValue,
+                        timestamp: serverTimestamp()
+                    });
+                } catch (e) {
+                    console.error("Error adding document: ", e);
+                    alert("Gagal menyimpan nilai ke server.");
+                }
+            }
+
+            showScreen('result');
+        }
+
+        function showNilai() {
+            showScreen('nilai');
+            // Data is rendered by the onSnapshot listener
+        }
+        
+        function listenForScores() {
+            if (scoresUnsubscribe) scoresUnsubscribe(); // Unsubscribe from previous listener if any
+            if (userId && scoresCollectionRef) {
+                const q = query(scoresCollectionRef); // We can add orderBy here if needed, but requires index
+                scoresUnsubscribe = onSnapshot(q, (querySnapshot) => {
+                    const scores = [];
+                    querySnapshot.forEach((doc) => {
+                        scores.push(doc.data());
+                    });
+                    
+                    // Sort in memory to avoid needing a composite index in Firestore
+                    scores.sort((a, b) => (b.timestamp?.toDate() || 0) - (a.timestamp?.toDate() || 0));
+
+                    const tableBody = document.getElementById('nilaiTableBody');
+                    tableBody.innerHTML = '';
+                    if (scores.length === 0) {
+                        tableBody.innerHTML = `<tr><td colspan="5" class="text-center p-4 text-gray-500">Belum ada nilai yang tersimpan.</td></tr>`;
+                    } else {
+                        scores.forEach(score => {
+                            const row = document.createElement('tr');
+                            const date = score.timestamp ? score.timestamp.toDate().toLocaleDateString('id-ID') : 'N/A';
+                            row.innerHTML = `
+                                <td class="py-3 px-4 border-b">${score.name}</td>
+                                <td class="py-3 px-4 border-b">${score.class}</td>
+                                <td class="py-3 px-4 border-b">${score.topic}</td>
+                                <td class="py-3 px-4 border-b font-bold ${score.score >= KKM ? 'text-green-600' : 'text-red-600'}">${score.score}</td>
+                                <td class="py-3 px-4 border-b">${date}</td>
+                            `;
+                            tableBody.appendChild(row);
+                        });
+                    }
+                });
+            }
+        }
+
+        function showCertificate() {
+            const finalScoreValue = Math.round((currentQuiz.score / currentQuiz.questions.length) * 100);
+            document.getElementById('certStudentName').textContent = currentUser.name;
+            document.getElementById('certTopic').textContent = data[currentQuiz.topicId].title;
+            document.getElementById('certScore').textContent = finalScoreValue;
+            document.getElementById('certDate').textContent = `Diberikan pada: ${new Date().toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' })}`;
+            showScreen('sertifikat');
+        }
+
+        // --- EVENT LISTENERS ---
+        startButton.addEventListener('click', () => {
+            const name = studentNameInput.value.trim();
+            if (name === '') {
+                alert('Nama tidak boleh kosong!');
+                return;
+            }
+            currentUser.name = name;
+            currentUser.kelas = studentClassSelect.value;
+            initMainMenu();
+            showScreen('mainMenu');
+        });
+
+        topicGrid.addEventListener('click', (e) => {
+            const target = e.target.closest('button');
+            if (!target) return;
+
+            const topicId = target.dataset.topic;
+            if (target.classList.contains('read-materi-btn')) {
+                showMateri(topicId);
+            } else if (target.classList.contains('start-quiz-btn')) {
+                startQuiz(topicId);
+            }
+        });
+
+        backToMenuButtons.forEach(button => {
+            button.addEventListener('click', () => showScreen('mainMenu'));
+        });
+        
+        viewScoresButton.addEventListener('click', showNilai);
+
+        document.getElementById('viewCertificateButton').addEventListener('click', showCertificate);
+        
+        printCertificateButton.addEventListener('click', () => {
+             const certificateContent = document.getElementById('certificateWrapper').innerHTML;
+             const printWindow = window.open('', '', 'height=600,width=800');
+             printWindow.document.write('<html><head><title>Cetak Sertifikat</title>');
+             printWindow.document.write('<script src="https://cdn.tailwindcss.com"><\/script>');
+             printWindow.document.write('<style>body { -webkit-print-color-adjust: exact; } .certificate { border: 10px solid #1e40af; background-color: #eff6ff; padding: 2rem; position: relative; background-image: url("data:image/svg+xml,%3Csvg width=\'60\' height=\'60\' viewBox=\'0 0 60 60\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cg fill=\'none\' fill-rule=\'evenodd\'%3E%3Cg fill=\'%2393c5fd\' fill-opacity=\'0.1\'%3E%3Cpath d=\'M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z\'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E"); }</style>');
+             printWindow.document.write('</head><body >');
+             printWindow.document.write('<div class="certificate">');
+             printWindow.document.write(certificateContent);
+             printWindow.document.write('</div>');
+             printWindow.document.write('</body></html>');
+             printWindow.document.close();
+             printWindow.focus();
+             setTimeout(() => { printWindow.print(); }, 500);
+        });
+        
+        showBiodataButton.addEventListener('click', () => showScreen('biodata'));
+        backToWelcomeButton.addEventListener('click', () => showScreen('welcome'));
+        backToResultButton.addEventListener('click', () => showScreen('result'));
+
+
+        // Initial screen
+        showScreen('welcome');
+    </script>
+
+</body>
+</html>
+"
